@@ -2,62 +2,117 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="theme-color" content="#0b1620">
 <title>Pa-Dack Admin</title>
 <style>
-:root{--bg:#0b1620;--bg2:#10222f;--cd:rgba(255,255,255,.055);--cd2:rgba(255,255,255,.1);--ln:rgba(255,255,255,.1);--tx:#eef6fa;--tx2:#8ba5b4;--ac:#ffb454;--ac2:#ff7a45;--ok:#3fd08c;--bad:#ff5a6a;--blue:#4aa3ff}
-*{box-sizing:border-box}
-html,body{margin:0;height:100%;background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;font-size:14px;letter-spacing:-.01em}
+:root{--bg:#0b1620;--bg2:#10222f;--bg3:#16303f;--cd:rgba(255,255,255,.05);--cd2:rgba(255,255,255,.1);--ln:rgba(255,255,255,.1);--tx:#eef6fa;--tx2:#8ba5b4;--ac:#ffb454;--ac2:#ff7a45;--ok:#3fd08c;--bad:#ff5a6a;--warn:#ffb454;--blue:#4aa3ff;--nav:64px;--sb:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;font-size:14px;letter-spacing:-.01em;line-height:1.4}
 button,input,select,textarea{font:inherit;color:inherit}
 [hidden]{display:none!important}
+a{color:var(--blue)}
 #login{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(120% 70% at 50% 0,#1f5a73,#08151f 70%);padding:20px}
 .lbox{background:var(--bg2);border:1px solid var(--ln);border-radius:22px;padding:28px 24px;width:100%;max-width:360px;text-align:center}
 .lbox h1{margin:0 0 4px;color:var(--ac);font-size:28px}.lbox p{color:var(--tx2);margin:0 0 18px}
 #lerr{color:var(--bad);min-height:20px;margin:12px 0 0;font-weight:700;word-break:keep-all}
-.btn{border:0;border-radius:10px;padding:8px 13px;font-weight:800;background:linear-gradient(var(--ac),var(--ac2));color:#2a1200;cursor:pointer;white-space:nowrap}
+.btn{border:0;border-radius:10px;padding:9px 14px;min-height:36px;font-weight:800;background:linear-gradient(var(--ac),var(--ac2));color:#2a1200;cursor:pointer;white-space:nowrap}
 .btn:active{transform:translateY(1px)}
-.btn.g{background:var(--cd2);color:var(--tx)}.btn.r{background:var(--bad);color:#fff}.btn.k{background:var(--ok);color:#06281a}.btn.s{padding:5px 9px;font-size:12px;border-radius:8px}
+.btn.g{background:var(--cd2);color:var(--tx)}.btn.r{background:var(--bad);color:#fff}.btn.k{background:var(--ok);color:#06281a}.btn.s{padding:5px 10px;min-height:30px;font-size:12px;border-radius:8px}
 .btn[disabled]{opacity:.5;cursor:default}
 #app{display:flex;height:100%}
-aside{width:190px;flex:none;background:var(--bg2);border-right:1px solid var(--ln);display:flex;flex-direction:column;padding:14px 10px;gap:3px;overflow:auto}
+aside{width:196px;flex:none;background:var(--bg2);border-right:1px solid var(--ln);display:flex;flex-direction:column;padding:14px 10px;gap:3px;overflow:auto}
 aside .brand{font-weight:900;font-size:18px;color:var(--ac);padding:4px 10px 12px}
-aside button{border:0;background:none;text-align:left;padding:10px 12px;border-radius:10px;color:var(--tx2);font-weight:700;cursor:pointer}
-aside button.on{background:var(--cd2);color:var(--tx)}
+aside button.nv{border:0;background:none;text-align:left;padding:11px 12px;border-radius:10px;color:var(--tx2);font-weight:700;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+aside button.nv.on{background:var(--cd2);color:var(--tx)}
 aside .me{margin-top:auto;padding:10px;color:var(--tx2);font-size:12px;word-break:break-all}
-main{flex:1;min-width:0;overflow:auto;padding:22px 26px 60px}
-h2{margin:0 0 16px;font-size:22px}h3{margin:18px 0 8px;font-size:15px;color:var(--tx2)}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
-.card{background:var(--cd);border:1px solid var(--ln);border-radius:16px;padding:14px 16px}
-.card small{color:var(--tx2);font-weight:700}.card b{display:block;font-size:26px;margin-top:4px}
-.box{background:var(--cd);border:1px solid var(--ln);border-radius:16px;padding:14px 16px;margin-bottom:14px}
+main{flex:1;min-width:0;overflow:auto;padding:22px 26px 60px;-webkit-overflow-scrolling:touch}
+h2{margin:0 0 14px;font-size:22px}h3{margin:16px 0 8px;font-size:15px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:14px}
+.card{background:var(--cd);border:1px solid var(--ln);border-radius:16px;padding:12px 14px}
+.card small{color:var(--tx2);font-weight:700}.card b{display:block;font-size:24px;margin-top:2px}
+.box{background:var(--cd);border:1px solid var(--ln);border-radius:16px;padding:14px 16px;margin-bottom:12px}
+.box>h3:first-child{margin-top:0}
 table{width:100%;border-collapse:collapse}
-th,td{text-align:left;padding:8px 8px;border-bottom:1px solid var(--ln);vertical-align:middle}
+th,td{text-align:left;padding:8px;border-bottom:1px solid var(--ln);vertical-align:middle}
 th{color:var(--tx2);font-size:12px;font-weight:700}
 tr.clk{cursor:pointer}tr.clk:hover{background:var(--cd)}
-.tag{display:inline-block;padding:1px 8px;border-radius:99px;font-size:11px;font-weight:800;background:var(--cd2)}
-.tag.bad{background:var(--bad);color:#fff}.tag.ok{background:var(--ok);color:#06281a}.tag.wn{background:var(--ac);color:#2a1200}
-input[type=text],input[type=number],input[type=search],select,textarea{background:rgba(255,255,255,.07);border:1px solid var(--ln);border-radius:9px;padding:8px 10px;min-width:0;outline:none}
+.tag{display:inline-block;padding:1px 8px;border-radius:99px;font-size:11px;font-weight:800;background:var(--cd2);margin:1px 2px 1px 0}
+.tag.bad{background:var(--bad);color:#fff}.tag.ok{background:var(--ok);color:#06281a}.tag.wn{background:var(--warn);color:#2a1200}.tag.bl{background:var(--blue);color:#021a33}
+input[type=text],input[type=number],input[type=search],select,textarea{background:rgba(255,255,255,.07);border:1px solid var(--ln);border-radius:9px;padding:8px 10px;min-height:36px;min-width:0;outline:none;font-size:14px}
 input:focus,select:focus,textarea:focus{border-color:var(--ac)}
 select option{background:#10222f}
 textarea{width:100%;min-height:200px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px}
 .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0}
-.row label{color:var(--tx2);font-weight:700;min-width:64px}
-.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 14px}
+.row>label{color:var(--tx2);font-weight:700;min-width:64px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:6px 14px}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
-.chip{border:1px solid var(--ln);background:var(--cd);border-radius:99px;padding:4px 10px;font-size:12px;font-weight:700;cursor:pointer}
+.chip{border:1px solid var(--ln);background:var(--cd);border-radius:99px;padding:5px 11px;font-size:12px;font-weight:700;cursor:pointer;user-select:none}
 .chip.on{background:var(--ok);color:#06281a;border-color:transparent}
-.r0{color:#8fa3b0}.r1{color:#3fb97c}.r2{color:#4aa3ff}.r3{color:#b46bff}.r4{color:#ffb42e}
+.r0{color:#9fb3bf}.r1{color:#3fb97c}.r2{color:#4aa3ff}.r3{color:#b46bff}.r4{color:#ffb42e}
 .mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;color:var(--tx2)}
-#modal{position:fixed;inset:0;background:rgba(2,10,16,.72);display:flex;align-items:flex-start;justify-content:center;padding:30px 14px;overflow:auto;z-index:50}
-#mb{background:var(--bg2);border:1px solid var(--ln);border-radius:20px;width:100%;max-width:880px;padding:20px 22px 26px;position:relative}
-#mx{position:absolute;right:14px;top:12px}
-#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#08151f;border:1px solid var(--ln);padding:10px 18px;border-radius:99px;font-weight:700;z-index:99;opacity:0;pointer-events:none;transition:.25s;max-width:90vw}
+.mut{color:var(--tx2)}
+#modal{position:fixed;inset:0;background:rgba(2,10,16,.75);display:flex;align-items:flex-start;justify-content:center;padding:24px 14px;overflow:auto;z-index:50}
+#mb{background:var(--bg2);border:1px solid var(--ln);border-radius:20px;width:100%;max-width:920px;position:relative;display:flex;flex-direction:column;max-height:calc(100vh - 48px)}
+#mh{display:flex;align-items:center;gap:10px;padding:14px 16px 8px}
+#mh h2{margin:0;font-size:19px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#mt{display:flex;gap:4px;padding:0 12px 8px;overflow-x:auto;border-bottom:1px solid var(--ln)}
+#mt button{border:0;background:none;color:var(--tx2);font-weight:800;padding:8px 12px;border-radius:9px;white-space:nowrap;cursor:pointer}
+#mt button.on{background:var(--cd2);color:var(--tx)}
+#mc{padding:14px 16px 26px;overflow:auto;-webkit-overflow-scrolling:touch}
+#toast{position:fixed;left:50%;bottom:calc(var(--sb) + 80px);transform:translateX(-50%);background:#08151f;border:1px solid var(--ln);padding:10px 18px;border-radius:99px;font-weight:700;z-index:99;opacity:0;pointer-events:none;transition:.25s;max-width:90vw;text-align:center}
 #toast.show{opacity:1}#toast.err{border-color:var(--bad);color:#ffb0b8}
 .warn{border:1px solid rgba(255,90,106,.5);background:rgba(255,90,106,.08);border-radius:12px;padding:10px 12px;color:#ffc2c8;margin:8px 0}
-.scroll{max-height:340px;overflow:auto}
-canvas#omap{width:100%;max-width:480px;aspect-ratio:1;background:#0a1c2a;border:1px solid var(--ln);border-radius:14px}
-@media(max-width:760px){#app{flex-direction:column}aside{width:auto;flex-direction:row;overflow-x:auto;padding:8px;border-right:0;border-bottom:1px solid var(--ln)}aside .brand,aside .me{display:none}aside button{white-space:nowrap}main{padding:16px 12px 60px}}
+.info{border:1px solid rgba(74,163,255,.4);background:rgba(74,163,255,.08);border-radius:12px;padding:10px 12px;margin:8px 0}
+.scroll{max-height:380px;overflow:auto}
+.sevb{display:inline-block;min-width:54px;text-align:center;padding:1px 8px;border-radius:8px;font-size:11px;font-weight:900}
+.s3{background:var(--bad);color:#fff}.s2{background:#ff8a3a;color:#2a1200}.s1{background:var(--warn);color:#2a1200}.s0{background:var(--cd2);color:var(--tx2)}
+.fd{padding:8px 0;border-bottom:1px dashed var(--ln)}.fd:last-child{border:0}
+.fd b{display:block;margin:2px 0}.fd .ev{color:var(--tx2);font-size:13px;word-break:keep-all;white-space:pre-wrap}
+details.ac{border:1px solid var(--ln);border-radius:12px;margin:8px 0;background:var(--cd)}
+details.ac>summary{list-style:none;cursor:pointer;padding:10px 12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+details.ac>summary::-webkit-details-marker{display:none}
+details.ac .bd{padding:0 12px 10px}
+.tog{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;border:1px solid var(--ln);background:var(--cd)}
+.tog.on{border-color:var(--bad);background:rgba(255,90,106,.1)}
+.sw{position:relative;width:50px;height:28px;flex:none}
+.sw input{opacity:0;width:100%;height:100%;position:absolute;margin:0;cursor:pointer}
+.sw i{position:absolute;inset:0;border-radius:99px;background:#456;transition:.2s;pointer-events:none}
+.sw i:after{content:"";position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:.2s}
+.sw input:checked+i{background:var(--bad)}.sw input:checked+i:after{left:25px}
+canvas#omap{width:100%;max-width:420px;aspect-ratio:1;background:#0a1c2a;border:1px solid var(--ln);border-radius:14px}
+.bar{position:sticky;bottom:0;background:var(--bg2);padding:10px 0 2px;display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid var(--ln);margin-top:10px}
+#bnav{display:none}
+#more{position:fixed;inset:0;z-index:70;background:rgba(2,10,16,.6);display:flex;align-items:flex-end}
+#more>div{background:var(--bg2);width:100%;border-radius:20px 20px 0 0;padding:14px 14px calc(var(--sb) + 16px);display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+#more button{border:1px solid var(--ln);background:var(--cd);border-radius:12px;padding:14px;font-weight:800;color:var(--tx)}
+@media(max-width:820px){
+ #app{flex-direction:column}
+ aside{display:none}
+ main{padding:14px 12px calc(var(--nav) + var(--sb) + 24px)}
+ h2{font-size:19px}
+ #bnav{display:flex;position:fixed;left:0;right:0;bottom:0;height:calc(var(--nav) + var(--sb));padding-bottom:var(--sb);background:var(--bg2);border-top:1px solid var(--ln);z-index:40}
+ #bnav button{flex:1;border:0;background:none;color:var(--tx2);font-weight:800;font-size:12px;position:relative}
+ #bnav button.on{color:var(--ac)}
+ #bnav b{position:absolute;top:8px;left:calc(50% + 8px);background:var(--bad);color:#fff;border-radius:9px;font-size:10px;min-width:17px;height:17px;line-height:17px;padding:0 4px}
+ input[type=text],input[type=number],input[type=search],select,textarea{font-size:16px}
+ .btn{min-height:42px}.btn.s{min-height:36px}
+ #modal{padding:0}#mb{max-width:none;border-radius:0;max-height:none;min-height:100%;border:0}
+ #mh{position:sticky;top:0;background:var(--bg2);z-index:2;padding-top:calc(12px + env(safe-area-inset-top,0px))}
+ #mt{position:sticky;top:56px;background:var(--bg2);z-index:2}
+ table.rt,table.rt tbody{display:block}
+ table.rt tr.h{display:none}
+ table.rt tr{display:block;border:1px solid var(--ln);border-radius:12px;margin:8px 0;padding:6px 10px;background:var(--cd)}
+ table.rt td{display:flex;justify-content:space-between;gap:10px;border:0;padding:4px 0;text-align:right;word-break:break-all}
+ table.rt td[data-l]:before{content:attr(data-l);color:var(--tx2);font-weight:700;text-align:left;flex:none}
+ table.rt td.act{justify-content:flex-end;flex-wrap:wrap;gap:6px}
+ table.rt td.act:before{display:none}
+ .row>label{min-width:100%}
+ .scroll{max-height:none}
+}
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
@@ -68,285 +123,629 @@ canvas#omap{width:100%;max-width:480px;aspect-ratio:1;background:#0a1c2a;border:
 <div id="app" hidden>
   <aside id="nav"></aside>
   <main id="view"></main>
+  <nav id="bnav"></nav>
 </div>
-<div id="modal" hidden><div id="mb"><button class="btn g s" id="mx">닫기</button><div id="mc"></div></div></div>
+<div id="more" hidden><div id="moreIn"></div></div>
+<div id="modal" hidden><div id="mb"><div id="mh"><h2 id="mtitle"></h2><button class="btn g s" data-a="mclose">닫기</button></div><div id="mt"></div><div id="mc"></div></div></div>
 <div id="toast"></div>
 
 <script>
 'use strict';
-const ADMIN='geniusted1129@gmail.com';
-const FB={apiKey:"AIzaSyCf9lyTEblW9BGqYzzY35LXaE6oSz52L0E",authDomain:"pa-dack.firebaseapp.com",databaseURL:"https://pa-dack-default-rtdb.firebaseio.com",projectId:"pa-dack",storageBucket:"pa-dack.firebasestorage.app",messagingSenderId:"373128457861",appId:"1:373128457861:web:563eb2cfe200f9f7a3c3ec"};
-const FISHDB=[["f1","송사리","fresh","common",10,5,9],["f2","붕어","fresh","common",24,18,35],["f3","참개구리","fresh","common",18,5,10],["f4","민물새우","fresh","common",20,4,9],["f5","잉어","fresh","uncommon",60,40,75],["f6","가재","fresh","uncommon",70,9,15],["f7","메기","fresh","uncommon",88,45,85],["f8","쏘가리","fresh","rare",190,25,50],["f9","호수 거북","fresh","rare",230,25,40],["f10","황금 잉어","fresh","epic",620,50,85],["f11","철갑상어","fresh","legendary",3000,180,300],["s1","멸치","sea","common",12,8,14],["s2","고등어","sea","common",30,25,40],["s3","꽃게","sea","common",26,8,14],["s4","불가사리","sea","common",20,8,15],["s5","도미","sea","uncommon",70,30,55],["s6","오징어","sea","uncommon",75,20,40],["s7","가자미","sea","uncommon",80,25,45],["s8","복어","sea","rare",180,20,35],["s9","가오리","sea","rare",240,40,100],["s10","참치","sea","epic",450,100,200],["s11","문어","sea","epic",560,40,100],["s12","대왕고래","sea","legendary",4200,600,1000],["f12","피라미","fresh","common",10,4,8],["f13","미꾸라지","fresh","common",14,12,25],["f14","올챙이","fresh","common",10,3,6],["f15","갈겨니","fresh","common",16,8,16],["f16","모래무지","fresh","common",18,8,15],["f17","달팽이","fresh","common",12,2,4],["f18","버들치","fresh","common",12,8,14],["f19","납자루","fresh","common",14,5,9],["f20","다슬기","fresh","common",16,2,4],["f21","가시고기","fresh","common",22,4,8],["f22","블루길","fresh","uncommon",56,15,25],["f23","배스","fresh","uncommon",84,25,60],["f24","동자개","fresh","uncommon",60,20,35],["f25","뱀장어","fresh","uncommon",90,40,90],["f26","빙어","fresh","uncommon",52,8,14],["f27","은어","fresh","uncommon",74,20,30],["f28","강준치","fresh","uncommon",66,35,60],["f29","향어","fresh","uncommon",78,40,70],["f30","도롱뇽","fresh","uncommon",58,10,18],["f31","산천어","fresh","rare",180,25,40],["f32","열목어","fresh","rare",230,40,70],["f33","무지개송어","fresh","rare",210,35,60],["f34","가물치","fresh","rare",260,50,100],["f35","피라냐","fresh","rare",170,15,30],["f36","자라","fresh","rare",240,25,40],["f37","황소개구리","fresh","rare",190,15,20],["f38","칠성장어","fresh","rare",280,30,50],["f39","비단잉어","fresh","epic",540,40,80],["f40","아로와나","fresh","epic",700,70,120],["f41","전기뱀장어","fresh","epic",620,100,200],["f42","대왕메기","fresh","epic",660,100,200],["f43","레드테일","fresh","epic",580,60,90],["f44","용잉어","fresh","legendary",3400,80,140],["f45","달빛 뱀장어","fresh","legendary",3900,100,160],["f46","호수의 주인","fresh","legendary",4800,150,230],["s13","정어리","sea","common",10,12,18],["s14","전갱이","sea","common",16,15,30],["s15","청어","sea","common",18,20,30],["s16","쥐치","sea","common",22,15,25],["s17","소라","sea","common",20,6,12],["s18","조개","sea","common",14,5,10],["s19","성게","sea","common",24,5,10],["s20","망둥어","sea","common",12,8,15],["s21","노래미","sea","common",26,20,35],["s22","날치","sea","common",32,18,30],["s23","광어","sea","uncommon",70,40,80],["s24","우럭","sea","uncommon",60,25,50],["s25","농어","sea","uncommon",78,40,80],["s26","갈치","sea","uncommon",84,80,120],["s27","학공치","sea","uncommon",52,30,45],["s28","전어","sea","uncommon",58,20,30],["s29","홍합","sea","uncommon",54,6,12],["s30","대하","sea","uncommon",90,15,25],["s31","쭈꾸미","sea","uncommon",66,15,25],["s32","해마","sea","rare",260,8,15],["s33","연어","sea","rare",200,50,90],["s34","방어","sea","rare",230,60,120],["s35","대구","sea","rare",210,50,100],["s36","아귀","sea","rare",250,40,100],["s37","랍스터","sea","rare",290,25,45],["s38","달해파리","sea","rare",170,20,40],["s39","바다거북","sea","rare",300,60,120],["s40","황새치","sea","epic",700,200,400],["s41","상어","sea","epic",680,150,400],["s42","개복치","sea","epic",560,120,300],["s43","돌고래","sea","epic",620,170,260],["s44","고래상어","sea","legendary",3800,500,1200],["s45","대왕오징어","sea","legendary",4300,400,900],["s46","바다용","sea","legendary",4800,600,1500],["d1","초롱아귀","sea","common",34,15,30],["d2","심해 새우","sea","common",30,6,14],["d3","투명 해파리","sea","uncommon",90,15,35],["d4","붉은 대구","sea","uncommon",110,40,80],["d5","대왕 쥐가오리","sea","rare",330,150,300],["d6","심해 불꽃오징어","sea","rare",320,40,90],["d7","청새치","sea","epic",760,250,400],["d8","심연의 리바이어던","sea","legendary",5600,900,1800],["t1","짱뚱어","sea","common",26,8,18],["t2","칠게","sea","common",24,3,6],["t3","바지락","sea","uncommon",52,4,8],["t4","낙지","sea","uncommon",100,20,40],["t5","대합","sea","rare",200,8,14],["t6","넓적 가오리","sea","rare",260,40,80],["t7","흰발농게","sea","epic",560,5,9],["t8","갯벌 인어 뱀장어","sea","legendary",3600,90,160],["m1","늪 개구리","fresh","common",20,6,12],["m2","장구벌레","fresh","common",12,2,5],["m3","늪 거머리","fresh","uncommon",64,6,14],["m4","늪 가물치","fresh","uncommon",96,40,80],["m5","악어거북","fresh","rare",280,40,80],["m6","반딧불 도롱뇽","fresh","rare",260,12,22],["m7","이끼 메기","fresh","epic",640,70,120],["m8","안개 늪의 용","fresh","legendary",4400,300,700],["c1","동굴 새우","fresh","common",26,3,7],["c2","눈먼 동굴고기","fresh","common",28,5,10],["c3","백색 도롱뇽","fresh","uncommon",98,15,28],["c4","수정 가재","fresh","uncommon",104,10,18],["c5","발광 뱀장어","fresh","rare",300,60,110],["c6","유리 잉어","fresh","rare",270,30,55],["c7","오로라 철갑어","fresh","epic",700,120,220],["c8","수정 심장 고래","fresh","legendary",5000,200,400],["f47","참붕어","fresh","common",14,6,12],["f48","꺽지","fresh","common",20,10,20],["f49","쉬리","fresh","common",22,8,14],["f50","큰징거미새우","fresh","uncommon",64,8,20],["f51","끄리","fresh","uncommon",72,30,50],["f52","누치","fresh","uncommon",80,30,60],["f53","황쏘가리","fresh","rare",330,30,50],["f54","금붕어","fresh","uncommon",56,8,20],["f55","곤들매기","fresh","rare",230,30,60],["f56","민물가오리","fresh","rare",300,40,80],["f57","앨리게이터가아","fresh","epic",620,120,200],["f58","큰 강 상어","fresh","epic",700,150,300],["f59","은빛 철갑왕","fresh","legendary",3600,300,500],["f60","호수 정령 거북","fresh","legendary",3200,100,200],["s47","볼락","sea","common",18,12,25],["s48","쏨뱅이","sea","common",20,10,20],["s49","꽁치","sea","common",22,20,35],["s50","갑오징어","sea","uncommon",66,20,35],["s51","참돔","sea","uncommon",88,40,70],["s52","벤자리","sea","uncommon",64,20,40],["s53","붉바리","sea","uncommon",96,40,60],["s54","가리비","sea","uncommon",70,8,16],["s55","꽃돔","sea","rare",240,30,50],["s56","쥐노래미","sea","rare",210,30,60],["s57","은하 해파리","sea","rare",250,20,40],["s58","청상아리","sea","epic",760,200,400],["s59","만타가오리","sea","epic",700,300,600],["s60","용왕 거북","sea","legendary",3600,150,300],["s61","황금 참치","sea","legendary",3900,200,400],["d9","유령 해파리","sea","common",28,10,25],["d10","심해 망둥이","sea","common",28,8,16],["d11","철갑 게","sea","uncommon",92,12,24],["d12","그림자 오징어","sea","rare",330,40,90],["d13","심해 용상어","sea","epic",780,200,450],["d14","크라켄의 새끼","sea","legendary",4200,200,500],["t9","말뚝망둥어","sea","common",22,8,15],["t10","쏙","sea","common",26,5,10],["t11","민챙이","sea","uncommon",74,3,6],["t12","갯가재","sea","rare",310,12,25],["t13","황금 농게","sea","epic",640,6,12],["t14","달빛 칠게왕","sea","legendary",3300,20,40],["m9","우렁이","fresh","common",16,3,6],["m10","늪 미꾸라지","fresh","common",20,10,20],["m11","독개구리","fresh","uncommon",96,3,6],["m12","늪 뱀장어","fresh","rare",300,60,120],["m13","이끼 거북왕","fresh","epic",680,80,150],["m14","늪의 주인 두꺼비","fresh","legendary",3800,40,80],["c9","동굴 거미새우","fresh","common",26,3,7],["c10","투명 올챙이","fresh","common",22,3,6],["c11","백색 가재","fresh","uncommon",100,10,20],["c12","유령 메기","fresh","rare",300,30,60],["c13","수정 거북","fresh","epic",660,50,100],["c14","동굴 수호 뱀장어","fresh","legendary",3900,150,300]],ITEMDB=[["r1","rod","대나무 낚싯대",0],["r2","rod","나뭇가지 낚싯대",0],["r3","rod","초보자용 막대",0],["r4","rod","파란 글라스로드",1],["r5","rod","카본 로드",1],["r6","rod","비단 낚싯대",1],["r7","rod","은빛 윤슬대",2],["r8","rod","산호 낚싯대",2],["r9","rod","용골 낚싯대",3],["r10","rod","별빛 낚싯대",4],["s1","shoes","헌 짚신",0],["s2","shoes","고무장화",0],["s3","shoes","슬리퍼",0],["s4","shoes","운동화",1],["s5","shoes","가죽 부츠",1],["s6","shoes","개구리 장화",1],["s7","shoes","바람 신발",2],["s8","shoes","파도 샌들",2],["s9","shoes","번개 부츠",3],["s10","shoes","구름 걷는 신발",4],["h1","hat","밀짚모자",0],["h2","hat","털모자",0],["h3","hat","야구모자",0],["h4","hat","낚시 벙거지",1],["h5","hat","꽃 리본",1],["h6","hat","해적 모자",1],["h7","hat","선장 모자",2],["h8","hat","진주 머리핀",2],["h9","hat","인어 왕관",3],["h10","hat","용의 뿔 관",4],["r11","rod","버드나무 낚싯대",0],["r12","rod","갈대 낚싯대",0],["r13","rod","장난감 낚싯대",0],["r14","rod","녹슨 쇠막대",0],["r15","rod","대나무 마디대",0],["r16","rod","연습용 낚싯대",0],["r17","rod","단풍 낚싯대",1],["r18","rod","청동 로드",1],["r19","rod","흑단 낚싯대",1],["r20","rod","민트 글라스대",1],["r21","rod","호수 낚싯대",1],["r22","rod","노을 낚싯대",1],["r23","rod","번개 낚싯대",2],["r24","rod","진주 낚싯대",2],["r25","rod","갈고리 낚싯대",2],["r26","rod","쌍둥이 낚싯대",2],["r27","rod","폭풍 낚싯대",3],["r28","rod","황금 낚싯대",3],["r29","rod","그랩 루프 낚싯대",4],["r30","rod","세계수 낚싯대",4],["s11","shoes","나무 신발",0],["s12","shoes","밀짚 샌들",0],["s13","shoes","낡은 운동화",0],["s14","shoes","비닐 장화",0],["s15","shoes","털 슬리퍼",0],["s16","shoes","맨발 샌들",0],["s17","shoes","등산화",1],["s18","shoes","카우보이 부츠",1],["s19","shoes","핑크 스니커즈",1],["s20","shoes","가죽 샌들",1],["s21","shoes","스노 부츠",1],["s22","shoes","노란 레인부츠",1],["s23","shoes","물갈퀴 신발",2],["s24","shoes","스프린터 슈즈",2],["s25","shoes","수륙양용 장화",2],["s26","shoes","이끼 장화",2],["s27","shoes","파도타기 부츠",3],["s28","shoes","유성 스니커즈",3],["s29","shoes","인어 지느러미 부츠",4],["s30","shoes","천둥 질주화",4],["h11","hat","털 귀마개",0],["h12","hat","타월 두건",0],["h13","hat","풀잎 모자",0],["h14","hat","양동이",0],["h15","hat","체크 베레",0],["h16","hat","초록 두건",0],["h17","hat","고양이 귀 모자",1],["h18","hat","물안경",1],["h19","hat","새싹 모자",1],["h20","hat","꽃 화관",1],["h21","hat","리본 밀짚모자",1],["h22","hat","파랑 야구모자",1],["h23","hat","마법사 모자",2],["h24","hat","선원 모자",2],["h25","hat","황금 화관",2],["h26","hat","고글 헬멧",2],["h27","hat","별빛 마법모자",3],["h28","hat","천사의 고리",3],["h29","hat","월계관",4],["h30","hat","용왕의 관",4],["p1","pet","아기 고양이",0],["p2","pet","강아지",0],["p3","pet","토끼",0],["p4","pet","오리",0],["p5","pet","개구리",0],["p6","pet","참새",0],["p7","pet","꼬마 게",0],["p8","pet","수달",1],["p9","pet","아기 거북",1],["p10","pet","부엉이",1],["p11","pet","아기 물범",1],["p12","pet","슬라임",1],["p13","pet","펭귄",2],["p14","pet","여우",2],["p15","pet","꼬마 해파리",2],["p16","pet","웰시코기",2],["p17","pet","구름 고양이",3],["p18","pet","불사조 병아리",3],["p19","pet","아기 용",4],["p20","pet","달토끼",4]];
-const FBY={bungeo:{id:'bungeo',n:'붕어빵',w:'any',r:'rare',p:150,min:12,max:18}},IBY={};
-FISHDB.forEach(f=>FBY[f[0]]={id:f[0],n:f[1],w:f[2],r:f[3],p:f[4],min:f[5],max:f[6]});
-ITEMDB.forEach(i=>IBY[i[0]]={id:i[0],slot:i[1],n:i[2],ri:i[3]});
-const RN=['일반','고급','희귀','영웅','전설'],SLOTN={rod:'낚싯대',shoes:'신발',hat:'머리 장식',pet:'펫'},WN={fresh:'민물',sea:'바다',any:'어디서나'};
+/* =====================================================================
+   ENGINE: 게임 규칙을 그대로 옮긴 순수 계산부 (DOM 없음)
+   ===================================================================== */
+/*ENGINE-START*/
+const GD={"fish":[["f1","송사리","fresh","common",11,5,9,""],["f2","붕어","fresh","common",26,18,35,""],["f3","참개구리","fresh","common",20,5,10,""],["f4","민물새우","fresh","common",22,4,9,""],["f5","잉어","fresh","uncommon",66,40,75,""],["f6","가재","fresh","uncommon",77,9,15,""],["f7","메기","fresh","uncommon",97,45,85,""],["f8","쏘가리","fresh","rare",209,25,50,""],["f9","호수 거북","fresh","rare",253,25,40,""],["f10","황금 잉어","fresh","epic",682,50,85,""],["f11","철갑상어","fresh","legendary",3300,180,300,""],["s1","멸치","sea","common",13,8,14,""],["s2","고등어","sea","common",33,25,40,""],["s3","꽃게","sea","common",29,8,14,""],["s4","불가사리","sea","common",22,8,15,""],["s5","도미","sea","uncommon",77,30,55,""],["s6","오징어","sea","uncommon",83,20,40,""],["s7","가자미","sea","uncommon",88,25,45,""],["s8","복어","sea","rare",198,20,35,""],["s9","가오리","sea","rare",264,40,100,""],["s10","참치","sea","epic",495,100,200,""],["s11","문어","sea","epic",616,40,100,""],["s12","대왕고래","sea","legendary",4620,600,1000,""],["f12","피라미","fresh","common",11,4,8,""],["f13","미꾸라지","fresh","common",15,12,25,""],["f14","올챙이","fresh","common",11,3,6,""],["f15","갈겨니","fresh","common",18,8,16,""],["f16","모래무지","fresh","common",20,8,15,""],["f17","달팽이","fresh","common",13,2,4,""],["f18","버들치","fresh","common",13,8,14,""],["f19","납자루","fresh","common",15,5,9,""],["f20","다슬기","fresh","common",18,2,4,""],["f21","가시고기","fresh","common",24,4,8,""],["f22","블루길","fresh","uncommon",62,15,25,""],["f23","배스","fresh","uncommon",92,25,60,""],["f24","동자개","fresh","uncommon",66,20,35,""],["f25","뱀장어","fresh","uncommon",99,40,90,""],["f26","빙어","fresh","uncommon",57,8,14,""],["f27","은어","fresh","uncommon",81,20,30,""],["f28","강준치","fresh","uncommon",73,35,60,""],["f29","향어","fresh","uncommon",86,40,70,""],["f30","도롱뇽","fresh","uncommon",64,10,18,""],["f31","산천어","fresh","rare",198,25,40,""],["f32","열목어","fresh","rare",253,40,70,""],["f33","무지개송어","fresh","rare",231,35,60,""],["f34","가물치","fresh","rare",286,50,100,""],["f35","피라냐","fresh","rare",187,15,30,""],["f36","자라","fresh","rare",264,25,40,""],["f37","황소개구리","fresh","rare",209,15,20,""],["f38","칠성장어","fresh","rare",308,30,50,""],["f39","비단잉어","fresh","epic",594,40,80,""],["f40","아로와나","fresh","epic",770,70,120,""],["f41","전기뱀장어","fresh","epic",682,100,200,""],["f42","대왕메기","fresh","epic",726,100,200,""],["f43","레드테일","fresh","epic",638,60,90,""],["f44","용잉어","fresh","legendary",3740,80,140,""],["f45","달빛 뱀장어","fresh","legendary",4290,100,160,""],["f46","호수의 주인","fresh","legendary",5280,150,230,""],["s13","정어리","sea","common",11,12,18,""],["s14","전갱이","sea","common",18,15,30,""],["s15","청어","sea","common",20,20,30,""],["s16","쥐치","sea","common",24,15,25,""],["s17","소라","sea","common",22,6,12,""],["s18","조개","sea","common",15,5,10,""],["s19","성게","sea","common",26,5,10,""],["s20","망둥어","sea","common",13,8,15,""],["s21","노래미","sea","common",29,20,35,""],["s22","날치","sea","common",35,18,30,""],["s23","광어","sea","uncommon",77,40,80,""],["s24","우럭","sea","uncommon",66,25,50,""],["s25","농어","sea","uncommon",86,40,80,""],["s26","갈치","sea","uncommon",92,80,120,""],["s27","학공치","sea","uncommon",57,30,45,""],["s28","전어","sea","uncommon",64,20,30,""],["s29","홍합","sea","uncommon",59,6,12,""],["s30","대하","sea","uncommon",99,15,25,""],["s31","쭈꾸미","sea","uncommon",73,15,25,""],["s32","해마","sea","rare",286,8,15,""],["s33","연어","sea","rare",220,50,90,""],["s34","방어","sea","rare",253,60,120,""],["s35","대구","sea","rare",231,50,100,""],["s36","아귀","sea","rare",275,40,100,""],["s37","랍스터","sea","rare",319,25,45,""],["s38","달해파리","sea","rare",187,20,40,""],["s39","바다거북","sea","rare",330,60,120,""],["s40","황새치","sea","epic",770,200,400,""],["s41","상어","sea","epic",748,150,400,""],["s42","개복치","sea","epic",616,120,300,""],["s43","돌고래","sea","epic",682,170,260,""],["s44","고래상어","sea","legendary",4180,500,1200,""],["s45","대왕오징어","sea","legendary",4730,400,900,""],["s46","바다용","sea","legendary",5280,600,1500,""],["d1","초롱아귀","sea","common",32,15,30,"deep"],["d2","심해 새우","sea","common",28,6,14,"deep"],["d3","투명 해파리","sea","uncommon",84,15,35,"deep"],["d4","붉은 대구","sea","uncommon",103,40,80,"deep"],["d5","대왕 쥐가오리","sea","rare",309,150,300,"deep"],["d6","심해 불꽃오징어","sea","rare",299,40,90,"deep"],["d7","청새치","sea","epic",711,250,400,"deep"],["d8","심연의 리바이어던","sea","legendary",5236,900,1800,"deep"],["t1","짱뚱어","sea","common",30,8,18,"flat"],["t2","칠게","sea","common",28,3,6,"flat"],["t3","바지락","sea","uncommon",60,4,8,"flat"],["t4","낙지","sea","uncommon",116,20,40,"flat"],["t5","대합","sea","rare",231,8,14,"flat"],["t6","넓적 가오리","sea","rare",300,40,80,"flat"],["t7","흰발농게","sea","epic",647,5,9,"flat"],["t8","갯벌 인어 뱀장어","sea","legendary",4158,90,160,"flat"],["m1","늪 개구리","fresh","common",23,6,12,"swamp"],["m2","장구벌레","fresh","common",14,2,5,"swamp"],["m3","늪 거머리","fresh","uncommon",75,6,14,"swamp"],["m4","늪 가물치","fresh","uncommon",112,40,80,"swamp"],["m5","악어거북","fresh","rare",326,40,80,"swamp"],["m6","반딧불 도롱뇽","fresh","rare",303,12,22,"swamp"],["m7","이끼 메기","fresh","epic",746,70,120,"swamp"],["m8","안개 늪의 용","fresh","legendary",5130,300,700,"swamp"],["c1","동굴 새우","fresh","common",32,3,7,"cave"],["c2","눈먼 동굴고기","fresh","common",34,5,10,"cave"],["c3","백색 도롱뇽","fresh","uncommon",121,15,28,"cave"],["c4","수정 가재","fresh","uncommon",128,10,18,"cave"],["c5","발광 뱀장어","fresh","rare",370,60,110,"cave"],["c6","유리 잉어","fresh","rare",333,30,55,"cave"],["c7","오로라 철갑어","fresh","epic",862,120,220,"cave"],["c8","수정 심장 고래","fresh","legendary",6160,200,400,"cave"],["f47","참붕어","fresh","common",15,6,12,""],["f48","꺽지","fresh","common",22,10,20,""],["f49","쉬리","fresh","common",24,8,14,""],["f50","큰징거미새우","fresh","uncommon",70,8,20,""],["f51","끄리","fresh","uncommon",79,30,50,""],["f52","누치","fresh","uncommon",88,30,60,""],["f53","황쏘가리","fresh","rare",363,30,50,""],["f54","금붕어","fresh","uncommon",62,8,20,""],["f55","곤들매기","fresh","rare",253,30,60,""],["f56","민물가오리","fresh","rare",330,40,80,""],["f57","앨리게이터가아","fresh","epic",682,120,200,""],["f58","큰 강 상어","fresh","epic",770,150,300,""],["f59","은빛 철갑왕","fresh","legendary",3960,300,500,""],["f60","호수 정령 거북","fresh","legendary",3520,100,200,""],["s47","볼락","sea","common",20,12,25,""],["s48","쏨뱅이","sea","common",22,10,20,""],["s49","꽁치","sea","common",24,20,35,""],["s50","갑오징어","sea","uncommon",73,20,35,""],["s51","참돔","sea","uncommon",97,40,70,""],["s52","벤자리","sea","uncommon",70,20,40,""],["s53","붉바리","sea","uncommon",106,40,60,""],["s54","가리비","sea","uncommon",77,8,16,""],["s55","꽃돔","sea","rare",264,30,50,""],["s56","쥐노래미","sea","rare",231,30,60,""],["s57","은하 해파리","sea","rare",275,20,40,""],["s58","청상아리","sea","epic",836,200,400,""],["s59","만타가오리","sea","epic",770,300,600,""],["s60","용왕 거북","sea","legendary",3960,150,300,""],["s61","황금 참치","sea","legendary",4290,200,400,""],["d9","유령 해파리","sea","common",26,10,25,"deep"],["d10","심해 망둥이","sea","common",26,8,16,"deep"],["d11","철갑 게","sea","uncommon",86,12,24,"deep"],["d12","그림자 오징어","sea","rare",309,40,90,"deep"],["d13","심해 용상어","sea","epic",729,200,450,"deep"],["d14","크라켄의 새끼","sea","legendary",3927,200,500,"deep"],["t9","말뚝망둥어","sea","common",25,8,15,"flat"],["t10","쏙","sea","common",30,5,10,"flat"],["t11","민챙이","sea","uncommon",85,3,6,"flat"],["t12","갯가재","sea","rare",358,12,25,"flat"],["t13","황금 농게","sea","epic",739,6,12,"flat"],["t14","달빛 칠게왕","sea","legendary",3812,20,40,"flat"],["m9","우렁이","fresh","common",19,3,6,"swamp"],["m10","늪 미꾸라지","fresh","common",23,10,20,"swamp"],["m11","독개구리","fresh","uncommon",112,3,6,"swamp"],["m12","늪 뱀장어","fresh","rare",350,60,120,"swamp"],["m13","이끼 거북왕","fresh","epic",793,80,150,"swamp"],["m14","늪의 주인 두꺼비","fresh","legendary",4431,40,80,"swamp"],["c9","동굴 거미새우","fresh","common",32,3,7,"cave"],["c10","투명 올챙이","fresh","common",27,3,6,"cave"],["c11","백색 가재","fresh","uncommon",123,10,20,"cave"],["c12","유령 메기","fresh","rare",370,30,60,"cave"],["c13","수정 거북","fresh","epic",813,50,100,"cave"],["c14","동굴 수호 뱀장어","fresh","legendary",4805,150,300,"cave"],["bungeo","붕어빵","any","rare",165,12,18,""]],"items":[["r1","rod","대나무 낚싯대",0,{"bite":1},{}],["r2","rod","나뭇가지 낚싯대",0,{"zone":1},{}],["r3","rod","초보자용 막대",0,{"power":1},{}],["r4","rod","파란 글라스로드",1,{"bite":1,"zone":0.5},{}],["r5","rod","카본 로드",1,{"power":1,"bite":0.5},{}],["r6","rod","비단 낚싯대",1,{"luck":1},{}],["r7","rod","은빛 윤슬대",2,{"bite":1,"luck":0.6},{}],["r8","rod","산호 낚싯대",2,{"zone":1,"power":0.6},{}],["r9","rod","용골 낚싯대",3,{"bite":1,"luck":0.7},{"longcast":0.2}],["r10","rod","별빛 낚싯대",4,{"bite":1,"luck":0.8,"zone":0.6},{"twin":0.06,"longcast":0.2}],["s1","shoes","헌 짚신",0,{"speed":1},{}],["s2","shoes","고무장화",0,{"speed":1},{}],["s3","shoes","슬리퍼",0,{"speed":0.8,"luck":0.4},{}],["s4","shoes","운동화",1,{"speed":1},{}],["s5","shoes","가죽 부츠",1,{"speed":1,"power":0.5},{}],["s6","shoes","개구리 장화",1,{"speed":1,"luck":0.5},{}],["s7","shoes","바람 신발",2,{"speed":1,"bite":0.5},{"sprint":0.1}],["s8","shoes","파도 샌들",2,{"speed":1,"zone":0.6},{}],["s9","shoes","번개 부츠",3,{"speed":1,"luck":0.7},{"sprint":0.15}],["s10","shoes","구름 걷는 신발",4,{"speed":1,"luck":0.6,"bite":0.6},{"swim":0.8}],["h1","hat","밀짚모자",0,{"luck":1},{}],["h2","hat","털모자",0,{"zone":1},{}],["h3","hat","야구모자",0,{"bite":1},{}],["h4","hat","낚시 벙거지",1,{"luck":1,"bite":0.5},{}],["h5","hat","꽃 리본",1,{"luck":1},{}],["h6","hat","해적 모자",1,{"zone":1,"luck":0.5},{}],["h7","hat","선장 모자",2,{"luck":1,"bite":0.6},{}],["h8","hat","진주 머리핀",2,{"luck":1,"zone":0.6},{}],["h9","hat","인어 왕관",3,{"luck":1,"zone":0.7},{"gold":0.06}],["h10","hat","용의 뿔 관",4,{"luck":1,"bite":0.7,"zone":0.6},{"big":0.1}],["r11","rod","버드나무 낚싯대",0,{"bite":1,"luck":0.3},{}],["r12","rod","갈대 낚싯대",0,{"zone":1,"bite":0.3},{}],["r13","rod","장난감 낚싯대",0,{"power":1,"luck":0.3},{}],["r14","rod","녹슨 쇠막대",0,{"power":1,"zone":0.3},{}],["r15","rod","대나무 마디대",0,{"bite":0.8,"zone":0.5},{}],["r16","rod","연습용 낚싯대",0,{"zone":0.8,"power":0.5},{}],["r17","rod","단풍 낚싯대",1,{"bite":1,"luck":0.5},{}],["r18","rod","청동 로드",1,{"power":1,"zone":0.5},{}],["r19","rod","흑단 낚싯대",1,{"zone":1,"bite":0.5},{}],["r20","rod","민트 글라스대",1,{"luck":1,"zone":0.5},{}],["r21","rod","호수 낚싯대",1,{"bite":1,"power":0.5},{}],["r22","rod","노을 낚싯대",1,{"luck":0.8,"bite":0.7},{}],["r23","rod","번개 낚싯대",2,{"bite":1.1,"power":0.6},{"longcast":0.25}],["r24","rod","진주 낚싯대",2,{"luck":1,"zone":0.6},{"gold":0.1}],["r25","rod","갈고리 낚싯대",2,{"power":1,"zone":0.6},{"grapple":1}],["r26","rod","쌍둥이 낚싯대",2,{"bite":0.8,"luck":0.7},{"twin":0.07}],["r27","rod","폭풍 낚싯대",3,{"bite":1,"power":0.8,"zone":0.5},{"longcast":0.4}],["r28","rod","황금 낚싯대",3,{"luck":1,"bite":0.7},{"gold":0.18,"twin":0.05}],["r29","rod","그랩 루프 낚싯대",4,{"bite":1,"power":0.9,"zone":0.6},{"grapple":1,"longcast":0.3}],["r30","rod","세계수 낚싯대",4,{"bite":1,"luck":1,"zone":0.7},{"twin":0.12,"gold":0.18,"longcast":0.25}],["s11","shoes","나무 신발",0,{"speed":1},{}],["s12","shoes","밀짚 샌들",0,{"speed":0.8,"luck":0.3},{}],["s13","shoes","낡은 운동화",0,{"speed":1,"zone":0.3},{}],["s14","shoes","비닐 장화",0,{"speed":0.9,"power":0.3},{}],["s15","shoes","털 슬리퍼",0,{"speed":0.8,"bite":0.3},{}],["s16","shoes","맨발 샌들",0,{"speed":1},{}],["s17","shoes","등산화",1,{"speed":1,"power":0.5},{}],["s18","shoes","카우보이 부츠",1,{"speed":1,"luck":0.4},{}],["s19","shoes","핑크 스니커즈",1,{"speed":1,"luck":0.5},{}],["s20","shoes","가죽 샌들",1,{"speed":1,"zone":0.5},{}],["s21","shoes","스노 부츠",1,{"speed":0.9,"bite":0.5},{}],["s22","shoes","노란 레인부츠",1,{"speed":1,"bite":0.4},{}],["s23","shoes","물갈퀴 신발",2,{"speed":0.6},{"swim":0.6}],["s24","shoes","스프린터 슈즈",2,{"speed":1,"bite":0.4},{"sprint":0.2}],["s25","shoes","수륙양용 장화",2,{"speed":0.8,"luck":0.4},{"swim":0.4,"sprint":0.08}],["s26","shoes","이끼 장화",2,{"speed":0.8,"luck":0.6},{"gold":0.06}],["s27","shoes","파도타기 부츠",3,{"speed":1,"zone":0.6},{"swim":0.9}],["s28","shoes","유성 스니커즈",3,{"speed":1,"bite":0.5},{"sprint":0.3}],["s29","shoes","인어 지느러미 부츠",4,{"speed":1,"luck":0.6,"zone":0.5},{"swim":1.3}],["s30","shoes","천둥 질주화",4,{"speed":1,"bite":0.6,"luck":0.5},{"sprint":0.35,"swim":0.6}],["h11","hat","털 귀마개",0,{"luck":0.8,"zone":0.4},{}],["h12","hat","타월 두건",0,{"bite":0.8,"luck":0.3},{}],["h13","hat","풀잎 모자",0,{"luck":1},{}],["h14","hat","양동이",0,{"zone":1},{}],["h15","hat","체크 베레",0,{"luck":0.7,"bite":0.4},{}],["h16","hat","초록 두건",0,{"bite":1},{}],["h17","hat","고양이 귀 모자",1,{"luck":1,"zone":0.4},{}],["h18","hat","물안경",1,{"zone":1,"bite":0.5},{}],["h19","hat","새싹 모자",1,{"luck":1,"bite":0.4},{}],["h20","hat","꽃 화관",1,{"luck":1.1},{}],["h21","hat","리본 밀짚모자",1,{"luck":0.8,"zone":0.6},{}],["h22","hat","파랑 야구모자",1,{"bite":1,"zone":0.4},{}],["h23","hat","마법사 모자",2,{"luck":1,"zone":0.6},{"big":0.1}],["h24","hat","선원 모자",2,{"luck":0.8,"bite":0.7},{"guard":0.2}],["h25","hat","황금 화관",2,{"luck":1.1,"zone":0.5},{"gold":0.08}],["h26","hat","고글 헬멧",2,{"bite":1,"zone":0.7},{"guard":0.15,"big":0.08}],["h27","hat","별빛 마법모자",3,{"luck":1,"bite":0.6,"zone":0.5},{"big":0.15,"gold":0.1}],["h28","hat","천사의 고리",3,{"luck":1.2,"zone":0.6},{"guard":0.3}],["h29","hat","월계관",4,{"luck":1.3,"bite":0.6,"zone":0.5},{"gold":0.22,"big":0.15}],["h30","hat","용왕의 관",4,{"luck":1.2,"zone":0.8,"bite":0.6},{"big":0.2,"guard":0.3,"twin":0.04}],["p1","pet","아기 고양이",0,{"luck":0.8,"bite":0.4},{}],["p2","pet","강아지",0,{"luck":0.7,"zone":0.5},{}],["p3","pet","토끼",0,{"luck":0.9},{}],["p4","pet","오리",0,{"bite":0.9},{}],["p5","pet","개구리",0,{"zone":0.9,"luck":0.3},{}],["p6","pet","참새",0,{"bite":0.7,"luck":0.4},{}],["p7","pet","꼬마 게",0,{"zone":0.7,"bite":0.4},{}],["p8","pet","수달",1,{"luck":0.9,"bite":0.5},{}],["p9","pet","아기 거북",1,{"zone":1,"luck":0.4},{}],["p10","pet","부엉이",1,{"luck":1,"bite":0.4},{}],["p11","pet","아기 물범",1,{"bite":1,"zone":0.3},{}],["p12","pet","슬라임",1,{"luck":1.1},{}],["p13","pet","펭귄",2,{"luck":1,"zone":0.4},{"swim":0.3,"coop":0.04}],["p14","pet","여우",2,{"luck":1.1,"bite":0.4},{"gold":0.07}],["p15","pet","꼬마 해파리",2,{"bite":0.9,"zone":0.4},{"guard":0.2}],["p16","pet","웰시코기",2,{"luck":0.9,"bite":0.6},{"sprint":0.08,"coop":0.04}],["p17","pet","구름 고양이",3,{"luck":1.1,"bite":0.6,"zone":0.4},{"coop":0.07,"sprint":0.12}],["p18","pet","불사조 병아리",3,{"luck":1.2,"bite":0.6},{"big":0.12,"gold":0.08}],["p19","pet","아기 용",4,{"luck":1.3,"bite":0.7,"zone":0.5},{"big":0.18,"coop":0.1,"twin":0.03}],["p20","pet","달토끼",4,{"luck":1.4,"zone":0.7,"bite":0.5},{"gold":0.16,"coop":0.1,"guard":0.2}]],"STB":{"bite":0.05,"power":0.05,"zone":0.05,"luck":0.04,"speed":0.035},"TMUL":[1,1.8,3,4.6,7],"gearmax":{"speed":1.245,"power":1.3599999999999999,"zone":0.9450000000000001,"luck":1.2040000000000002,"bite":2.0500000000000003,"swim":2.5,"grap":1,"lc":0.4,"twin":0.19,"gold":0.4,"sprint":0.45,"big":0.3,"guard":0.5,"coop":0.1}};
 const RORD=['common','uncommon','rare','epic','legendary'];
+const SLOTS=['rod','shoes','hat','pet'];
+const FB={},IT={};
+GD.fish.forEach(f=>FB[f[0]]={id:f[0],n:f[1],w:f[2],r:f[3],p:f[4],min:f[5],max:f[6],z:f[7],ri:RORD.indexOf(f[3])});
+GD.items.forEach(i=>IT[i[0]]={id:i[0],slot:i[1],n:i[2],ri:i[3],st:i[4],sp:i[5]||{}});
+const GMAX=GD.gearmax;
+const RARW=[60,25,10,4,1],FRW=[1.06,1,.85,.72,.7],PITY=40,SLOTCOST={rod:400,shoes:300,hat:350,pet:380};
+const clampN=(v,a,b)=>Math.min(b,Math.max(a,v));
+const isNum=v=>typeof v==='number'&&isFinite(v);
+function calcGear(eq){
+  const g={speed:1,power:1,zone:0,luck:0,bite:1,swim:1,grap:0,lc:0,twin:0,gold:0,sprint:0,big:0,guard:0,coop:0};
+  for(const sl of SLOTS){const it=IT[eq&&eq[sl]];if(!it)continue;
+    for(const k in it.sp){const v=it.sp[k];if(k==='swim')g.swim+=v;else if(k==='grapple')g.grap=1;else if(k==='longcast')g.lc+=v;else g[k]+=v}
+    for(const k in it.st)g[k]+=GD.STB[k]*GD.TMUL[it.ri]*it.st[k]}
+  g.swim=Math.min(g.swim,2.5);g.lc=Math.min(g.lc,.6);g.twin=Math.min(g.twin,.25);g.gold=Math.min(g.gold,.4);g.sprint=Math.min(g.sprint,.45);g.big=Math.min(g.big,.3);g.guard=Math.min(g.guard,.5);g.coop=Math.min(g.coop,.2);
+  return g}
+function rarProbs(L){const w=RARW.map((x,i)=>x*FRW[i]*(1+L*i)),t=w.reduce((a,b)=>a+b,0);return w.map(x=>x/t)}
+function lgam(x){const c=[76.18009172947146,-86.50532032941677,24.01409824083091,-1.231739572450155,.1208650973866179e-2,-.5395239384953e-5];let y=x,t=x+5.5;t-=(x+.5)*Math.log(t);let s=1.000000000190015;for(const v of c)s+=v/++y;return -t+Math.log(2.5066282746310005*s/x)}
+function binTail(k,n,p){if(k<=0)return 1;if(k>n)return 0;if(p<=0)return 0;if(p>=1)return 1;
+  const lp=Math.log(p),lq=Math.log(1-p),L0=lgam(n+1),mean=n*p;let s=0;
+  for(let i=k;i<=n;i++){const t=Math.exp(L0-lgam(i+1)-lgam(n-i+1)+i*lp+(n-i)*lq);s+=t;if(i>mean&&t<s*1e-12)break}
+  return Math.min(1,s)}
+const fmt=n=>(Math.round((+n||0)*1000)/1000).toLocaleString();
+const fmtG=n=>Math.round(+n||0).toLocaleString();
+const pct=(a,b)=>b?Math.round((a/b-1)*100):0;
+function priceBand(f,size,cfg){
+  const rng=Math.max(.1,f.max-f.min),tOf=(s,bg)=>clampN((s/(1+bg)-f.min)/rng,0,1);
+  const P=(t,bg,gd)=>f.p*(.75+.7*t)*(1+bg*.8)*(1+gd);
+  let hi=0,lo=1e9;
+  for(const bg of [0,.1,.2,.3]){hi=Math.max(hi,P(tOf((size+.05)/.8,bg),bg,.4));lo=Math.min(lo,P(tOf(size-.05,bg),bg,0)*.9)}
+  return [lo*(cfg.lo||1)*.97-2,hi*(cfg.hi||1)*1.03+2]}
+const SEV={3:'확정급',2:'강한 의심',1:'의심',0:'참고'};
+const CATN={speed:'속도핵',bite:'입질핵',luck:'행운핵',power:'파워/판정핵',zone:'판정핵',gold:'골드조작',items:'장비조작',inv:'물고기조작',time:'자동화/봇',data:'데이터변조',twin:'스탯조작',stat:'스탯조작'};
+/* analyze: u={save,meta}, ctx={now,cfg,live} -> {findings,score,cats} */
+function analyze(uid,u,ctx){
+  const s=(u&&u.save)||null,m=(u&&u.meta)||{},out=[];let N=0;
+  const cfg=ctx.cfg||{},cp=+cfg.price>0?+cfg.price:1;let fm=1,fmn=1;for(const k in (cfg.fish||{})){const v=+cfg.fish[k];if(v>fm)fm=v;if(v>0&&v<fmn)fmn=v}
+  const PB={hi:Math.max(1,cp*fm),lo:Math.min(1,cp*fmn)};
+  const add=(sev,cat,code,title,ev)=>out.push({sev,cat,code,title,ev:Array.isArray(ev)?ev.join('\n'):ev||''});
+  if(!s){add(0,'data','nosave','세이브 데이터 없음','');return fin()}
+  const gold=s.gold,earned=s.earned;
+  /* 1. 숫자 무결성 */
+  for(const k of ['gold','earned','avatar','tut']){if(s[k]!==undefined&&!isNum(s[k]))add(3,'data','nan_'+k,k+' 값이 숫자가 아니에요','저장값: '+JSON.stringify(s[k]))}
+  if(isNum(gold)&&gold<0)add(2,'gold','neg_gold','골드가 음수','gold = '+fmtG(gold));
+  /* 2. 스탯(gear) 조작 */
+  const eq=s.equip&&typeof s.equip==='object'?s.equip:{};
+  const exp=calcGear(eq),sg=s.gear&&typeof s.gear==='object'?s.gear:null;
+  const STATCAT={speed:'speed',bite:'bite',luck:'luck',power:'power',zone:'zone',swim:'speed',sprint:'speed',lc:'stat',twin:'twin',gold:'gold',big:'stat',guard:'stat',coop:'stat',grap:'speed'};
+  const STATN={speed:'이동속도',bite:'입질속도',luck:'행운',power:'릴 파워',zone:'판정 범위',swim:'수영',sprint:'질주',lc:'투척거리',twin:'쌍걸이',gold:'골드 보너스',big:'대물',guard:'리듬 보호',coop:'동료 시너지',grap:'그랩'};
+  if(sg){
+    const un=Object.keys(sg).filter(k=>!(k in exp));
+    if(un.length)add(3,'stat','gear_unknown','게임에 없는 스탯 키가 들어 있어요',un.map(k=>'gear.'+k+' = '+JSON.stringify(sg[k])));
+    for(const k of Object.keys(exp)){
+      if(sg[k]===undefined)continue;const v=sg[k],e=exp[k];
+      if(!isNum(v)){add(3,'stat','gear_nan_'+k,'스탯 '+k+' 값 이상','gear.'+k+' = '+JSON.stringify(v));continue}
+      const base=(k==='speed'||k==='power'||k==='bite'||k==='swim')?1:0;
+      if(v>e+.0006){
+        const over=GMAX[k]!==undefined&&v>GMAX[k]+.0006;
+        const ratio=e-base>.0001?((v-base)/(e-base)).toFixed(1)+'배':'장비 보너스 없음';
+        add(over?3:2,STATCAT[k]||'stat','gear_'+k,STATN[k]+' 스탯이 장착 장비로 낼 수 있는 값보다 높아요'+(over?' (전체 최대치도 초과)':''),
+          ['gear.'+k+' 저장값 '+fmt(v)+' / 현재 장착 장비 기준 정상값 '+fmt(e)+' (보너스 '+ratio+')','게임 내 풀세트 이론 최대: '+fmt(GMAX[k]),'장착: '+SLOTS.map(sl=>sl+'='+(eq[sl]||'없음')).join(', ')]);
+      }else if(v<e-.0006&&k!=='grap'){add(0,'stat','gear_low_'+k,STATN[k]+' 저장값이 정상값보다 낮아요 (구버전 데이터일 수 있어요)','저장 '+fmt(v)+' / 정상 '+fmt(e))}
+    }
+  }else add(0,'data','nogear','gear 데이터 없음','');
+  /* 3. 장비/아이템 */
+  const items=s.items&&typeof s.items==='object'?s.items:{};
+  const badEq=[];
+  for(const sl of SLOTS){const id=eq[sl];if(!id)continue;const it=IT[id];
+    if(!it)badEq.push(sl+' = '+id+' (존재하지 않는 장비)');
+    else if(it.slot!==sl)badEq.push(sl+' 칸에 '+it.slot+' 장비 '+it.n+'('+id+')');
+    else if(!items[id])badEq.push(sl+' = '+it.n+'('+id+') — 보유하지 않은 장비를 장착')}
+  if(badEq.length)add(2,'items','equip_bad','장착 장비가 이상해요',badEq);
+  const unkIt=Object.keys(items).filter(k=>!IT[k]),lvIt=Object.entries(items).filter(([k,v])=>IT[k]&&v!==1);
+  if(unkIt.length)add(2,'items','items_unknown','존재하지 않는 장비 보유',unkIt.slice(0,10));
+  if(lvIt.length)add(1,'items','items_lv','장비 값이 정상(1)이 아니에요',lvIt.slice(0,10).map(([k,v])=>k+' = '+JSON.stringify(v)));
+  const own=Object.keys(items).filter(k=>IT[k]&&items[k]);
+  const ptl=Array.isArray(s.ptl)?s.ptl:(s.ptl?Object.values(s.ptl):[]);
+  const earnedN=isNum(earned)?earned:0;
+  if(own.length){
+    let need=0;const cnt=[0,0,0,0,0];for(const k of own){need+=SLOTCOST[IT[k].slot]*.9;cnt[IT[k].ri]++}
+    const avail=earnedN+100*ptl.length+3000;
+    const pulls=Math.max(1,avail/(Math.min(...Object.values(SLOTCOST))*.9));
+    if(earnedN>0||own.length>3){
+      if(need>avail*1.15)add(2,'items','items_afford','보유 장비 수 대비 번 돈이 너무 적어요',['보유 장비 '+own.length+'개를 얻으려면 최소 약 '+fmtG(need)+'G 필요','누적 획득 '+fmtG(earnedN)+'G + 유적 보상 '+fmtG(100*ptl.length)+'G']);
+      else if(need>avail)add(1,'items','items_afford','보유 장비 수 대비 번 돈이 부족해 보여요','최소 필요 '+fmtG(need)+'G / 가용 '+fmtG(avail)+'G');
+    }
+    const tl=binTail(cnt[4],Math.ceil(pulls),.02);
+    if(cnt[4]>=2&&tl<1e-6)add(2,'items','items_legend','전설 장비 수가 가능한 가챠 횟수에 비해 너무 많아요',['전설 장비 '+cnt[4]+'개 / 가능한 최대 가챠 약 '+Math.ceil(pulls)+'회','확률적으로 우연일 확률 '+tl.toExponential(1)]);
+  }
+  const pity=s.pity&&typeof s.pity==='object'?s.pity:{};
+  const bp=Object.entries(pity).filter(([k,v])=>!isNum(v)||v>=PITY||v<0);
+  if(bp.length)add(1,'items','pity','가챠 천장 값이 범위를 벗어났어요',bp.map(([k,v])=>'pity.'+k+' = '+JSON.stringify(v)+' (정상 0~'+(PITY-1)+')'));
+  /* 4. 인벤토리 / 도감 */
+  const inv=(Array.isArray(s.inv)?s.inv:Object.values(s.inv||{})).filter(Boolean);
+  const codex=s.codex&&typeof s.codex==='object'?s.codex:{};
+  const byId={};let badId=[],badSize=[],badPrice=[],ghost=[];
+  for(const it of inv){const f=FB[it.id];
+    if(!f){badId.push(String(it.id));continue}
+    (byId[it.id]=byId[it.id]||[]).push(it);
+    if(!isNum(+it.size)||!isNum(+it.price)){badSize.push(f.n+' 값 이상');continue}
+    if(it.size>f.max*1.3+.3||it.size<f.min*.8-.3)badSize.push(f.n+' '+it.size+'cm (정상 '+f.min+'~'+(Math.round(f.max*1.3*10)/10)+')');
+    const [lo,hi]=priceBand(f,+it.size,PB);
+    if(it.price>hi||it.price<lo)badPrice.push(f.n+' '+it.size+'cm '+fmtG(it.price)+'G (정상 '+fmtG(lo)+'~'+fmtG(hi)+'G)');
+  }
+  if(badId.length)add(3,'inv','inv_id','존재하지 않는 물고기가 인벤토리에 있어요',[...new Set(badId)].slice(0,10));
+  if(badSize.length)add(2,'inv','inv_size','물고기 크기가 정상 범위를 넘어요 ('+badSize.length+'마리)',badSize.slice(0,6));
+  if(badPrice.length)add(2,'inv','inv_price','물고기 가격이 크기·스탯으로 낼 수 있는 범위 밖이에요 ('+badPrice.length+'마리)',badPrice.slice(0,6));
+  for(const id in byId){const cd=codex[id],n=cd&&+cd.n||0,k=byId[id].length;
+    if(k>n)ghost.push(FB[id].n+'('+id+') 인벤토리 '+k+'마리 / 도감 포획 기록 '+n+'회');
+    else if(cd&&byId[id].some(x=>x.size>(+cd.max||0)+.06))ghost.push(FB[id].n+' 인벤토리 최대 '+Math.max(...byId[id].map(x=>x.size))+'cm / 도감 최대 '+cd.max+'cm')}
+  if(ghost.length)add(2,'inv','inv_ghost','포획 기록 없이 생긴 물고기가 있어요 (수동 추가 의심)',ghost.slice(0,6));
+  if(inv.length>600)add(1,'inv','inv_big','인벤토리가 비정상적으로 많아요',inv.length+'마리');
+  let cxBad=[],earnCap=0,rc=[0,0,0,0,0];
+  for(const id in codex){const c=codex[id],f=FB[id];
+    if(!f){cxBad.push(id+' (존재하지 않는 도감 항목)');continue}
+    if(!c||!isNum(+c.n)||+c.n<0||!Number.isInteger(+c.n)){cxBad.push(f.n+' 횟수 이상: '+JSON.stringify(c&&c.n));continue}
+    if(+c.max>f.max*1.3+.3)cxBad.push(f.n+' 최대 크기 '+c.max+'cm (한계 '+Math.round(f.max*1.3*10)/10+')');
+    N+=+c.n;earnCap+=+c.n*f.p*(.75+.7)*(1+.3*.8)*1.4;if(id!=='bungeo'&&f.ri>=0)rc[f.ri]+=+c.n}
+  if(cxBad.length)add(2,'data','codex_bad','도감에 이상한 항목이 있어요',cxBad.slice(0,6));
+  /* 5. 번 돈 vs 포획 기록 */
+  if(isNum(earned)&&earned>0){
+    const cap=earnCap*PB.hi;
+    if(earned>cap*2+1000)add(3,'gold','earned_cap','누적 획득 골드가 포획 기록으로 가능한 최대치의 2배를 넘어요',['누적 획득 '+fmtG(earned)+'G','도감 포획 '+fmtG(N)+'회 × 종별 최대가 = 최대 '+fmtG(cap)+'G']);
+    else if(earned>cap*1.25+500)add(2,'gold','earned_cap','누적 획득 골드가 포획 기록으로 가능한 최대치보다 많아요',['누적 획득 '+fmtG(earned)+'G / 가능 최대 '+fmtG(cap)+'G','(과거 판매가 이벤트나 구버전 데이터라면 오탐일 수 있어요)']);
+  }
+  if(isNum(gold)&&isNum(earned)){
+    const gcap=earned+100*ptl.length+3000;
+    if(earned>0&&gold>gcap*1.5+5000)add(3,'gold','gold_cap','보유 골드가 번 금액보다 훨씬 많아요',['보유 '+fmtG(gold)+'G / 누적 획득 '+fmtG(earned)+'G + 유적 '+fmtG(100*ptl.length)+'G (+ 중복 환급 소량)']);
+    else if(earned>0&&gold>gcap)add(2,'gold','gold_cap','보유 골드가 번 금액을 넘어요',['보유 '+fmtG(gold)+'G / 가능 약 '+fmtG(gcap)+'G']);
+    else if(earned===0&&gold>200000)add(1,'gold','gold_noearn','누적 획득 0인데 골드가 많아요','보유 '+fmtG(gold)+'G (구버전 데이터일 수 있어요)');
+  }
+  /* 6. 행운 핵: 희귀도 분포 */
+  if(N>=40){
+    const nb=rc.reduce((a,b)=>a+b,0),Lmax=GMAX.luck+.32+(+cfg.luck||0),pr=rarProbs(Lmax);
+    const hi3=rc[3]+rc[4],ph=binTail(hi3,nb,pr[3]+pr[4]),pl=binTail(rc[4],nb,pr[4]);
+    if(ph<1e-6||pl<1e-6){const w=Math.min(ph,pl);
+      add(w<1e-12?3:2,'luck','luck_dist','잡은 물고기의 희귀도 분포가 정상 최대 행운으로도 설명이 안 돼요',
+        ['영웅+전설 '+hi3+'마리 / 전체 '+nb+'마리 (기대 '+(nb*(pr[3]+pr[4])).toFixed(1)+'마리)','전설 '+rc[4]+'마리 (기대 '+(nb*pr[4]).toFixed(1)+'마리)','정상 최대 행운(L='+Lmax.toFixed(2)+') 기준 우연일 확률 '+w.toExponential(1)])}
+  }
+  /* 7. 시간 대비 포획 속도 (가입 시각이 진짜일 때만) */
+  const cr=m.created;
+  if(isNum(cr)&&!m.mig&&N>0){
+    const age=(ctx.now-cr)/1000,eff=Math.max(0,N-3000),minS=eff?age/eff:0;
+    if(eff>0&&eff*3>age)add(3,'time','rate_floor','가입 후 시간으로는 물리적으로 불가능한 포획 수',['가입 '+(age/3600).toFixed(1)+'시간 / 포획 '+fmtG(N)+'회 (오프라인 선플레이 3000회 제외 '+fmtG(eff)+'회)','마리당 평균 '+minS.toFixed(1)+'초 (게임상 최소 한 번에 약 6초)']);
+    else if(eff>0&&age>7200&&eff*12>age)add(1,'time','rate_fast','계속 쉬지 않고 해야 가능한 포획 속도',['가입 '+(age/3600).toFixed(1)+'시간 / 포획 '+fmtG(N)+'회','마리당 평균 '+minS.toFixed(1)+'초 (자동화/봇 의심)']);
+  }
+  if(!isNum(cr))add(0,'data','nocreated','가입 시각(meta/created) 없음 — 도구에서 마이그레이션 필요','');
+  /* 8. 알 수 없는 키 */
+  const KN=['gold','inv','codex','settings','gear','avatar','tut','nick','earned','items','equip','pity','ptl'];
+  const ex=Object.keys(s).filter(k=>!KN.includes(k));
+  if(ex.length)add(2,'data','keys_extra','게임에 없는 필드가 세이브에 있어요',ex.map(k=>k+' = '+JSON.stringify(s[k]).slice(0,60)));
+  const st=s.settings&&typeof s.settings==='object'?Object.keys(s.settings).filter(k=>!['sound','vibe','drag'].includes(k)):[];
+  if(st.length)add(1,'data','keys_settings','settings에 알 수 없는 키',st);
+  if(ptl.length>50)add(1,'data','ptl','유적 발견 수가 이상해요',ptl.length+'개');
+  /* 9. 감시(라이브) 증거 */
+  const lv=(ctx.live&&ctx.live[uid])||{};
+  for(const code in lv){const e=lv[code];add(e.sev||2,e.cat||'speed','live_'+code,'[실시간 감시] '+e.title,(e.ev||'')+'\n관측 '+new Date(e.t).toLocaleString('ko-KR',{hour12:false}))}
+  return fin();
+  function fin(){
+    const W={3:10,2:5,1:2,0:.3};let score=0;const cats={};
+    for(const f of out){score+=W[f.sev];if(f.sev>=1)cats[f.cat]=Math.max(cats[f.cat]||0,f.sev)}
+    out.sort((a,b)=>b.sev-a.sev);
+    const top=out.length?out[0].sev:0;
+    return {uid,findings:out,score,cats,level:score>=10||top===3?3:score>=5?2:score>=2?1:0,gold:s&&s.gold,earned:s&&s.earned,N}}
+}
+/* 복구 계획: 분석 결과를 바탕으로 save 를 정상값으로 되돌리는 변경 목록 */
+function repairPlan(save,cfg,only){
+  const s=JSON.parse(JSON.stringify(save)),plan=[];cfg=cfg||{};
+  const eq=s.equip=Object.assign({rod:'',shoes:'',hat:'',pet:''},s.equip||{});
+  const items=s.items=s.items&&typeof s.items==='object'?s.items:{};
+  const PB={hi:Math.max(1,(+cfg.price||1)*Math.max(1,...Object.values(cfg.fish||{}).map(Number))),lo:1};
+  const steps={};
+  steps.items=()=>{let n=0;for(const k of Object.keys(items)){if(!IT[k]||items[k]!==1){if(IT[k]&&items[k])items[k]=1;else delete items[k];n++}}return n&&'장비 목록 정리 '+n+'개'};
+  steps.equip=()=>{const bad=[];for(const sl of SLOTS){const id=eq[sl];if(id&&(!IT[id]||IT[id].slot!==sl||!items[id])){bad.push(sl+':'+id);eq[sl]=''}}return bad.length&&'잘못된 장착 해제 ('+bad.join(', ')+')'};
+  steps.gear=()=>{const e=calcGear(eq),g=s.gear;let n=0;if(!g||Object.keys(e).some(k=>!g||g[k]===undefined||Math.abs(g[k]-e[k])>.0006)||Object.keys(g).some(k=>!(k in e)))n=1;s.gear=e;return n&&'스탯(gear)을 장착 장비 기준으로 재계산'};
+  steps.inv=()=>{const inv=(Array.isArray(s.inv)?s.inv:Object.values(s.inv||{})).filter(Boolean),keep=[],codex=s.codex||{};let rm=0;const per={};
+    for(const it of inv){const f=FB[it.id];if(!f||!isNum(+it.size)||!isNum(+it.price)){rm++;continue}
+      if(it.size>f.max*1.3+.3||it.size<f.min*.8-.3){rm++;continue}
+      const [lo,hi]=priceBand(f,+it.size,PB);if(it.price>hi||it.price<lo){rm++;continue}keep.push(it)}
+    const out=[];for(const it of keep){const c=codex[it.id],n=c&&+c.n||0;per[it.id]=(per[it.id]||0)+1;if(per[it.id]>n){rm++;continue}out.push(it)}
+    s.inv=out;return rm&&'비정상 물고기 '+rm+'마리 제거'};
+  steps.codex=()=>{const c=s.codex=s.codex&&typeof s.codex==='object'?s.codex:{};let n=0;for(const id of Object.keys(c)){const f=FB[id],e=c[id];if(!f||!e||!isNum(+e.n)||+e.n<0){delete c[id];n++;continue}if(+e.max>f.max*1.3+.3){e.max=Math.round(f.max*1.3*10)/10;n++}}return n&&'도감 이상 항목 정정 '+n+'개'};
+  steps.keys=()=>{const KN=['gold','inv','codex','settings','gear','avatar','tut','nick','earned','items','equip','pity','ptl'];const ex=Object.keys(s).filter(k=>!KN.includes(k));ex.forEach(k=>delete s[k]);return ex.length&&'알 수 없는 필드 제거 ('+ex.join(', ')+')'};
+  steps.pity=()=>{const p=s.pity=s.pity&&typeof s.pity==='object'?s.pity:{};let n=0;for(const k of Object.keys(p)){if(!isNum(p[k])||p[k]<0||p[k]>=PITY){p[k]=0;n++}}return n&&'가챠 천장 값 정정'};
+  steps.earned=()=>{const c=s.codex||{};let cap=0;for(const id in c){const f=FB[id];if(f)cap+=(+c[id].n||0)*f.p*1.45*1.24*1.4}cap=Math.round(cap*PB.hi*1.25+500);
+    if(isNum(s.earned)&&s.earned>cap){const o=s.earned;s.earned=cap;return '누적 획득 '+fmtG(o)+' → '+fmtG(cap)+' (포획 기록 상한)'}return ''};
+  steps.gold=()=>{const ptl=Array.isArray(s.ptl)?s.ptl.length:0,cap=Math.round((+s.earned||0)+100*ptl+3000);
+    if(isNum(s.gold)&&(+s.earned>0)&&s.gold>cap){const o=s.gold;s.gold=cap;return '보유 골드 '+fmtG(o)+' → '+fmtG(cap)+' (번 금액 상한)'}if(isNum(s.gold)&&s.gold<0){s.gold=0;return '음수 골드 0으로'}return ''};
+  const order=['items','equip','gear','inv','codex','keys','pity','earned','gold'];
+  const label={items:'장비 목록',equip:'장착 장비',gear:'스탯 재계산',inv:'물고기 정리',codex:'도감 정정',keys:'알 수 없는 필드',pity:'천장',earned:'누적 획득 상한',gold:'골드 상한'};
+  for(const k of order){if(only&&!only.has(k))continue;const r=steps[k]();if(r)plan.push({k,label:label[k],text:r,def:!['earned','gold'].includes(k)})}
+  return {save:s,plan,steps,order}
+}
+/*ENGINE-END*/
 
-firebase.initializeApp(FB);
+/* =====================================================================
+   앱
+   ===================================================================== */
+const ADMIN='geniusted1129@gmail.com';
+const FBC={apiKey:"AIzaSyCf9lyTEblW9BGqYzzY35LXaE6oSz52L0E",authDomain:"pa-dack.firebaseapp.com",databaseURL:"https://pa-dack-default-rtdb.firebaseio.com",projectId:"pa-dack",storageBucket:"pa-dack.firebasestorage.app",messagingSenderId:"373128457861",appId:"1:373128457861:web:563eb2cfe200f9f7a3c3ec"};
+const RN=['일반','고급','희귀','영웅','전설'],SLOTN={rod:'낚싯대',shoes:'신발',hat:'머리 장식',pet:'펫'};
+const IDLE_MS=20*60*1000;
+firebase.initializeApp(FBC);
 const auth=firebase.auth(),db=firebase.database();
 const $=(s,r=document)=>r.querySelector(s);
-const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const esc=s=>String(s==null?'':s).replace(/[&<>"'`]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','`':'&#96;'}[c]));
+class Raw{constructor(s){this.s=s}toString(){return this.s}}
+const raw=s=>new Raw(String(s));
+const h=(st,...v)=>new Raw(st.reduce((a,x,i)=>a+x+(i<v.length?cv(v[i]):''),''));
+const cv=x=>x instanceof Raw?x.s:Array.isArray(x)?x.map(cv).join(''):esc(x);
+const put=(el,x)=>{el.innerHTML=x instanceof Raw?x.s:esc(x)};
 const get=p=>db.ref(p).once('value').then(s=>s.val());
 const TS=()=>firebase.database.ServerValue.TIMESTAMP;
 let OFF=0;db.ref('.info/serverTimeOffset').on('value',s=>{OFF=+s.val()||0});
 const nowT=()=>Date.now()+OFF;
-const fmtN=n=>(+n||0).toLocaleString();
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const fmtT=t=>t?new Date(t).toLocaleString('ko-KR',{hour12:false}):'-';
 const fmtAgo=t=>{if(!t)return '-';const s=Math.max(0,(nowT()-t)/1000);return s<60?Math.round(s)+'초 전':s<3600?Math.round(s/60)+'분 전':s<86400?Math.round(s/3600)+'시간 전':Math.round(s/86400)+'일 전'};
 let toastT=0;
-function toast(m,err){const e=$('#toast');e.textContent=m;e.className='show'+(err?' err':'');clearTimeout(toastT);toastT=setTimeout(()=>e.className='',err?4200:2400)}
-const S={tab:'dash',base:false,profiles:{},lb:{},bans:{},online:{},scan:null,cfg:null};
-let U=null;
+function toast(m,err){const e=$('#toast');e.textContent=m;e.className='show'+(err?' err':'');clearTimeout(toastT);toastT=setTimeout(()=>e.className='',err?4500:2400)}
 const guard=fn=>async(...a)=>{try{return await fn(...a)}catch(e){console.error(e);toast('오류: '+(e.code||e.message),true)}};
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,Math.floor(+v||0)));
+const S={tab:'dash',base:false,profiles:{},lb:{},bans:{},online:{},scan:null,cfg:{},suspects:{},users:{}};
+let U=null,UT='sum';
+const TABS=[['dash','홈'],['users','유저'],['online','접속·감시'],['scan','의심 분석'],['cfg','점검·공지'],['bans','밴'],['feed','피드·로그'],['db','DB'],['tools','도구']];
+const PRIMARY=['dash','users','online','scan'];
+
+/* ---------- 보안: 로그인 검증 / 최근 로그인 요구 / 유휴 로그아웃 ---------- */
+$('#loGo').onclick=async()=>{$('#lerr').textContent='';try{await auth.setPersistence(firebase.auth.Auth.Persistence.SESSION)}catch(e){}const p=new firebase.auth.GoogleAuthProvider();p.setCustomParameters({login_hint:ADMIN});try{await auth.signInWithPopup(p)}catch(e){if(e.code==='auth/popup-blocked')auth.signInWithRedirect(p);else $('#lerr').textContent='로그인 실패: '+(e.code||e.message)}};
+async function verify(u){
+  const r=await u.getIdTokenResult(true);
+  return r.claims.email===ADMIN&&r.claims.email_verified===true&&r.signInProvider==='google.com'}
+async function fresh(){
+  const u=auth.currentUser,r=await u.getIdTokenResult();
+  if(Date.now()-Date.parse(r.authTime)>10*60*1000){await u.reauthenticateWithPopup(new firebase.auth.GoogleAuthProvider());await u.getIdToken(true)}}
+function typed(word,msg){const v=prompt((msg||'')+'\n\n확인을 위해 "'+word+'" 를 입력하세요');return v&&v.trim()===word}
+let lastAct=Date.now();
+['click','keydown','touchstart','pointerdown'].forEach(ev=>addEventListener(ev,()=>lastAct=Date.now(),{passive:true,capture:true}));
+setInterval(()=>{if(auth.currentUser&&Date.now()-lastAct>IDLE_MS){toast('오래 사용하지 않아 로그아웃해요');auth.signOut()}},15000);
+auth.onAuthStateChanged(async u=>{
+  if(!u){$('#login').hidden=false;$('#app').hidden=true;stopMon();return}
+  let ok=false;try{ok=await verify(u)}catch(e){}
+  if(!ok){$('#lerr').textContent='관리자 계정이 아니에요. 로그아웃합니다.';auth.signOut();return}
+  $('#login').hidden=true;$('#app').hidden=false;start(u)});
+let started=false;
+function start(u){
+  put($('#nav'),h`<div class="brand">Pa-Dack Admin</div>${TABS.map(t=>h`<button class="nv" data-t="${t[0]}"><span>${t[1]}</span><b class="tag bad" data-bd="${t[0]}" hidden></b></button>`)}<div class="me">${u.email}<br><button class="btn g s" data-a="logout" style="margin-top:6px">로그아웃</button></div>`);
+  put($('#bnav'),h`${PRIMARY.map(k=>h`<button data-t="${k}">${TABS.find(t=>t[0]===k)[1]}<b data-bd="${k}" hidden></b></button>`)}<button data-a="more">더보기</button>`);
+  put($('#moreIn'),h`${TABS.filter(t=>!PRIMARY.includes(t[0])).map(t=>h`<button data-t="${t[0]}">${t[1]}</button>`)}<button data-a="logout">로그아웃</button>`);
+  if(!started){started=true;
+    document.addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(b&&!e.target.closest('#modal')){$('#more').hidden=true;go(b.dataset.t)}});
+    $('#more').addEventListener('click',e=>{if(e.target.id==='more')$('#more').hidden=true});
+    startMon();setInterval(()=>{if(S.tab==='online')renderOnline();badges()},4000);
+    db.ref('config').on('value',s=>{S.cfg=s.val()||{};badges()});
+  }
+  log('login','',navigator.userAgent.slice(0,80));go(S.tab)}
 function log(a,u,d){return db.ref('adminlog').push({t:TS(),a,u:u||'',d:String(d||'').slice(0,200)}).catch(()=>{})}
 async function sendEvent(uid,type,m){const o={type,from:auth.currentUser.uid,n:'관리자',t:TS()};if(m)o.m=String(m).slice(0,120);await db.ref('events/'+uid).push(o)}
-const isOnline=uid=>{const o=S.online[uid];return !!(o&&o.t&&nowT()-o.t<90000)};
-const nickOf=uid=>(S.profiles[uid]&&S.profiles[uid].nick)||(S.lb[uid]&&S.lb[uid].nick)||'(이름없음)';
-const sName=uid=>`${esc(nickOf(uid))} <span class="mono">${esc(uid.slice(0,6))}</span>`;
+const isOnline=uid=>{const o=S.online[uid];return !!(o&&o.t&&nowT()-o.t<120000)};
+const nickOf=uid=>(S.profiles[uid]&&S.profiles[uid].nick)||(S.lb[uid]&&S.lb[uid].nick)||(U&&U.uid===uid&&U.save.nick)||'(이름없음)';
+const sName=uid=>h`${nickOf(uid)} <span class="mono">${uid.slice(0,6)}</span>`;
+async function loadBase(force){if(S.base&&!force)return;const [p,l,b,sp]=await Promise.all([get('profiles'),get('leaderboard'),get('bans'),get('suspects')]);S.profiles=p||{};S.lb=l||{};S.bans=b||{};S.suspects=sp||{};S.base=true}
+const RENDER={};
+const go=guard(async t=>{S.tab=t;document.querySelectorAll('[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
+  put($('#view'),h`<div class="mono">불러오는 중…</div>`);await loadBase(false);$('#view').scrollTop=0;await RENDER[t]();badges()});
+function badges(){
+  const flags=Object.keys(MON.u).filter(k=>Object.keys(MON.u[k].flags).length&&isOnline(k)).length;
+  document.querySelectorAll('[data-bd="online"]').forEach(b=>{b.hidden=!flags;b.textContent=flags});
+  const mt=S.cfg.maintenance&&S.cfg.maintenance.on;
+  document.querySelectorAll('[data-bd="cfg"]').forEach(b=>{b.hidden=!mt;b.textContent='점검중'});}
+/* 표: 모바일에선 카드로 */
+function tbl(heads,rows,cls){return h`<table class="rt ${cls||''}"><tr class="h">${heads.map(x=>h`<th>${x}</th>`)}</tr>${rows}</table>`}
+const td=(l,x,c)=>h`<td data-l="${l}" class="${c||''}">${x}</td>`;
+const sevb=s=>h`<span class="sevb s${s}">${SEV[s]}</span>`;
+const catTags=cats=>Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([c,s])=>h`<span class="tag ${s>=3?'bad':s>=2?'wn':''}">${CATN[c]||c}</span>`);
 
-/* ---------- 로그인 ---------- */
-$('#loGo').onclick=async()=>{$('#lerr').textContent='';const p=new firebase.auth.GoogleAuthProvider();try{await auth.signInWithPopup(p)}catch(e){if(e.code==='auth/popup-blocked')auth.signInWithRedirect(p);else $('#lerr').textContent='로그인 실패: '+(e.code||e.message)}};
-auth.onAuthStateChanged(u=>{
-  if(!u){$('#login').hidden=false;$('#app').hidden=true;return}
-  if(u.email!==ADMIN||!u.emailVerified){$('#lerr').textContent='관리자 계정이 아니에요. 로그아웃합니다.';auth.signOut();return}
-  $('#login').hidden=true;$('#app').hidden=false;start(u);
-});
-let started=false;
-const TABS=[['dash','대시보드'],['users','유저'],['online','접속자'],['rank','랭킹'],['scan','의심 계정'],['cfg','공지 · 이벤트'],['bans','밴 목록'],['feed','피드 · 로그'],['db','DB 탐색기'],['tools','도구']];
-function start(u){
-  $('#nav').innerHTML='<div class="brand">Pa-Dack Admin</div>'+TABS.map(t=>`<button data-t="${t[0]}">${t[1]}</button>`).join('')+`<div class="me">${esc(u.email)}<br><button class="btn g s" id="lo" style="margin-top:6px">로그아웃</button></div>`;
-  $('#lo').onclick=()=>auth.signOut();
-  if(!started){started=true;
-    $('#nav').addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(b)go(b.dataset.t)});
-    db.ref('world/main/players').on('value',s=>{S.online=s.val()||{};if(S.tab==='online')renderOnline();else if(S.tab==='dash')renderDash()});
-    setInterval(()=>{if(S.tab==='online')renderOnline()},4000);
+/* =====================================================================
+   라이브 감시: 접속자 위치/상태 스트림에서 속도·입질·포획 간격을 검사
+   ===================================================================== */
+const MON={u:{},refs:null};
+function ccfg(){const c=S.cfg||{};return {bite:+c.bite>0?+c.bite:1,luck:+c.luck||0}}
+function monFlag(uid,m,code,sev,cat,title,ev){
+  const f=m.flags[code]||(m.flags[code]={n:0,w:0});f.n++;f.sev=sev;f.cat=cat;f.title=title;f.ev=ev;
+  if(nowT()-f.w>5*60*1000){f.w=nowT();db.ref('suspects/'+uid+'/'+code).set({sev,cat,title,ev,t:TS(),n:f.n}).then(()=>{S.suspects[uid]=S.suspects[uid]||{};S.suspects[uid][code]={sev,cat,title,ev,t:nowT()}}).catch(()=>{})}}
+function monUpdate(uid,v){
+  if(!v||!isNum(+v.t))return;
+  const m=MON.u[uid]||(MON.u[uid]={first:nowT(),n:0,vmax:0,vbad:0,dmax:0,dbad:0,wmin:null,wbad:0,waits:0,cbad:0,cn:0,lastCt:0,prev:null,ws:null,rar:[0,0,0,0,0],flags:{}});
+  const eq={rod:v.er,shoes:v.es,hat:v.eh,pet:v.ep},g=calcGear(eq);m.g=g;m.n++;m.nick=v.n;
+  const legV=g.grap?14:3.3*g.speed*Math.max(1,.6*g.swim)*(1+g.sprint);m.legV=legV;
+  const sp=Math.hypot(+v.vx||0,+v.vy||0);m.v=sp;if(sp>m.vmax)m.vmax=sp;
+  const p=m.prev;
+  if(p&&v.t>p.t){
+    const dt=(v.t-p.t)/1000;
+    if(sp>legV*1.12+.25){m.vbad++}
+    if(dt>=.15&&dt<=3){const d=Math.hypot(v.x-p.x,v.y-p.y);if(d<10){const dv=d/dt;if(dv>m.dmax)m.dmax=dv;if(dv>legV*1.5+.6)m.dbad++}}
+    if(v.f===1&&p.f!==1&&p.f!==2)m.ws=v.t;
+    if(v.f===2&&p.f===1&&m.ws){const w=(v.t-m.ws)/1000,c=ccfg(),lmin=7/(g.bite*1.4*c.bite);m.waits++;if(m.wmin===null||w<m.wmin)m.wmin=w;m.lmin=lmin;if(w<lmin-.45)m.wbad++;m.ws=null}
+    if(v.f===0||v.f===6)m.ws=null;
   }
-  go(S.tab);
+  if(+v.ct&&+v.ct!==m.lastCt){
+    if(m.lastCt){const iv=(v.ct-m.lastCt)/1000;m.cn++;m.civ=m.civ===undefined?iv:Math.min(m.civ,iv);if(iv<4.5&&iv>=0)m.cbad++}
+    m.lastCt=+v.ct;if(v.cr>=0&&v.cr<=4)m.rar[v.cr|0]++;
+  }
+  m.prev={x:+v.x,y:+v.y,t:v.t,f:v.f};
+  if(m.vbad>=4||m.dbad>=4)monFlag(uid,m,'speed',m.vbad>=10||m.dbad>=10?3:2,'speed','이동 속도가 장비로 낼 수 있는 한계를 넘어요',['신고 속도 최고 '+fmt(m.vmax)+' / 정상 상한 '+fmt(legV)+' (장착 장비 기준)','위치 변화 속도 최고 '+fmt(m.dmax)+' / 상한×1.5 = '+fmt(legV*1.5),'초과 샘플 '+m.vbad+'회, 변위 초과 '+m.dbad+'회']);
+  if(m.wbad>=2)monFlag(uid,m,'bite',m.wbad>=5?3:2,'bite','입질 대기 시간이 장비로 낼 수 있는 최소값보다 짧아요',['입질까지 최소 '+m.wmin.toFixed(2)+'초 / 정상 최소 약 '+m.lmin.toFixed(2)+'초 (입질 스탯 '+fmt(g.bite)+', 동료 효과 최대 반영)','짧은 대기 '+m.wbad+'회 / 측정 '+m.waits+'회']);
+  if(m.cbad>=3)monFlag(uid,m,'rate',m.cbad>=8?3:2,'time','포획 간격이 물리적 최소보다 짧아요',['최단 포획 간격 '+m.civ.toFixed(1)+'초 (게임상 최소 약 6초)','짧은 간격 '+m.cbad+'회 / 측정 '+m.cn+'회']);
+  const nb=m.rar.reduce((a,b)=>a+b,0);
+  if(nb>=30){const Lmax=GMAX.luck+.32+ccfg().luck,pr=rarProbs(Lmax),k=m.rar[3]+m.rar[4],pv=binTail(k,nb,pr[3]+pr[4]);
+    if(pv<1e-6)monFlag(uid,m,'luck',pv<1e-10?3:2,'luck','감시 중 희귀도 분포가 정상 최대 행운으로도 설명이 안 돼요',['감시 중 '+nb+'마리 중 영웅+전설 '+k+'마리 (기대 '+(nb*(pr[3]+pr[4])).toFixed(1)+')','우연일 확률 '+pv.toExponential(1)])}
 }
-async function loadBase(force){if(S.base&&!force)return;const [p,l,b]=await Promise.all([get('profiles'),get('leaderboard'),get('bans')]);S.profiles=p||{};S.lb=l||{};S.bans=b||{};S.base=true}
-const go=guard(async t=>{S.tab=t;document.querySelectorAll('#nav [data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
-  $('#view').innerHTML='<div class="mono">불러오는 중…</div>';
-  await loadBase(false);
-  ({dash:renderDash,users:renderUsers,online:renderOnline,rank:renderRank,scan:renderScan,cfg:renderCfg,bans:renderBans,feed:renderFeed,db:renderDB,tools:renderTools})[t]()});
+function startMon(){
+  if(MON.refs)return;const r=db.ref('world/main/players');
+  const on=s=>monUpdate(s.key,s.val());
+  r.on('child_added',on);r.on('child_changed',on);r.on('value',s=>{S.online=s.val()||{};if(S.tab==='online')renderOnline();else if(S.tab==='dash')RENDER.dash()});
+  MON.refs=[r]}
+function stopMon(){if(MON.refs){MON.refs.forEach(r=>r.off());MON.refs=null}MON.u={}}
 
-/* ---------- 대시보드 ---------- */
-function renderDash(){
+/* =====================================================================
+   탭: 홈
+   ===================================================================== */
+RENDER.dash=()=>{
   if(S.tab!=='dash')return;
-  const on=Object.keys(S.online).filter(isOnline).length,tot=Object.keys(S.profiles).length,bn=Object.keys(S.bans).length;
+  const on=Object.keys(S.online).filter(isOnline),tot=Object.keys(S.profiles).length,bn=Object.keys(S.bans).length,mt=S.cfg.maintenance&&S.cfg.maintenance.on;
+  const fl=Object.keys(MON.u).filter(k=>Object.keys(MON.u[k].flags).length);
   const top=Object.entries(S.lb).sort((a,b)=>(b[1].earned||0)-(a[1].earned||0)).slice(0,10);
-  $('#view').innerHTML=`<h2>대시보드</h2><div class="cards"><div class="card"><small>전체 유저</small><b>${fmtN(tot)}</b></div><div class="card"><small>접속 중</small><b>${on}</b></div><div class="card"><small>밴</small><b>${bn}</b></div><div class="card"><small>랭킹 등록</small><b>${fmtN(Object.keys(S.lb).length)}</b></div></div>
-  <div class="box"><h3 style="margin-top:0">누적 획득 TOP 10</h3><table><tr><th>#</th><th>유저</th><th>누적 골드</th><th>도감</th><th></th></tr>${top.map((r,i)=>`<tr><td>${i+1}</td><td>${sName(r[0])}</td><td>${fmtN(r[1].earned)}</td><td>${r[1].dex||0}</td><td><button class="btn g s" data-u="${r[0]}">상세</button></td></tr>`).join('')||'<tr><td colspan=5 class="mono">없음</td></tr>'}</table></div>
-  <div class="row"><button class="btn g" data-a="refresh">새로고침</button></div>`;
-}
-/* ---------- 유저 ---------- */
-let userQ='';
-function renderUsers(){
+  put($('#view'),h`<h2>홈</h2>
+  <div class="tog ${mt?'on':''}" style="margin-bottom:12px"><div style="flex:1"><b>${mt?'점검 중 — 관리자 외 접속·저장이 차단돼 있어요':'서비스 정상 운영 중'}</b><div class="mut">${mt?(S.cfg.maintenance.msg||''):'점검 모드는 점검·공지 탭에서 바꿔요'}</div></div><button class="btn ${mt?'k':'r'} s" data-a="mtQuick">${mt?'점검 끝내기':'점검 시작'}</button></div>
+  <div class="cards"><div class="card"><small>전체 유저</small><b>${tot.toLocaleString()}</b></div><div class="card"><small>접속 중</small><b>${on.length}</b></div><div class="card"><small>실시간 경고</small><b style="color:${fl.length?'var(--bad)':'inherit'}">${fl.length}</b></div><div class="card"><small>밴</small><b>${bn}</b></div></div>
+  ${fl.length?h`<div class="box"><h3>실시간 감시에 걸린 접속자</h3>${fl.map(k=>h`<div class="fd"><b>${sName(k)} ${Object.values(MON.u[k].flags).map(f=>h`<span class="tag bad">${CATN[f.cat]}</span>`)}</b><button class="btn g s" data-u="${k}">상세</button></div>`)}</div>`:''}
+  <div class="box"><h3>누적 획득 TOP 10</h3>${tbl(['#','유저','누적 골드','도감',''],top.map((r,i)=>h`<tr>${td('#',i+1)}${td('유저',sName(r[0]))}${td('누적',(+r[1].earned||0).toLocaleString())}${td('도감',r[1].dex||0)}<td class="act"><button class="btn g s" data-u="${r[0]}">상세</button></td></tr>`))}</div>
+  <div class="row"><button class="btn g" data-a="refresh">새로고침</button></div>`)};
+
+/* 유저 */
+let userQ='',userF='all';
+RENDER.users=()=>{
   const ids=[...new Set([...Object.keys(S.profiles),...Object.keys(S.lb)])];
-  const q=userQ.trim().toLowerCase();
-  const rows=ids.map(id=>({id,n:nickOf(id),e:(S.lb[id]||{}).earned||0,d:(S.lb[id]||{}).dex||0})).filter(r=>!q||r.n.toLowerCase().includes(q)||r.id.toLowerCase().includes(q)).sort((a,b)=>b.e-a.e);
-  $('#view').innerHTML=`<h2>유저 <span class="mono">${rows.length}명</span></h2><div class="row"><input type="search" id="uq" placeholder="닉네임 또는 UID 검색" value="${esc(userQ)}" style="width:280px"><button class="btn g" data-a="refresh">새로고침</button><input type="text" id="uidGo" placeholder="UID 직접 입력" style="width:260px"><button class="btn" data-a="uidGo">열기</button></div>
-  <div class="box"><table><tr><th>닉네임</th><th>UID</th><th>누적 골드</th><th>도감</th><th>상태</th></tr>${rows.slice(0,300).map(r=>`<tr class="clk" data-u="${r.id}"><td>${esc(r.n)}</td><td class="mono">${esc(r.id)}</td><td>${fmtN(r.e)}</td><td>${r.d}</td><td>${S.bans[r.id]?'<span class="tag bad">밴</span> ':''}${isOnline(r.id)?'<span class="tag ok">접속</span>':''}</td></tr>`).join('')}</table>${rows.length>300?'<div class="mono" style="padding:8px">상위 300명만 표시 · 검색을 사용하세요</div>':''}</div>`;
-  const i=$('#uq');i.oninput=()=>{userQ=i.value;const p=i.selectionStart;renderUsers();const n=$('#uq');n.focus();n.setSelectionRange(p,p)};
-}
-/* ---------- 접속자 ---------- */
+  const q=userQ.trim().toLowerCase(),sc=S.scan&&S.scan.map;
+  let rows=ids.map(id=>({id,n:nickOf(id),e:(S.lb[id]||{}).earned||0,d:(S.lb[id]||{}).dex||0,lv:sc&&sc[id]?sc[id].level:-1})).filter(r=>(!q||r.n.toLowerCase().includes(q)||r.id.toLowerCase().includes(q))&&(userF==='all'||(userF==='ban'&&S.bans[r.id])||(userF==='on'&&isOnline(r.id))||(userF==='sus'&&r.lv>=1)));
+  rows.sort((a,b)=>b.e-a.e);
+  put($('#view'),h`<h2>유저 <span class="mono">${rows.length}명</span></h2>
+  <div class="row"><input type="search" id="uq" placeholder="닉네임 또는 UID 검색" value="${userQ}" style="flex:1;min-width:200px"><button class="btn g" data-a="refresh">새로고침</button></div>
+  <div class="chips" style="margin-bottom:10px">${[['all','전체'],['on','접속 중'],['ban','밴'],['sus','의심(스캔 후)']].map(([k,l])=>h`<span class="chip ${userF===k?'on':''}" data-a="uf" data-id="${k}">${l}</span>`)}</div>
+  <div class="row"><input type="text" id="uidGo" placeholder="UID 직접 입력" style="flex:1;min-width:200px"><button class="btn" data-a="uidGo">열기</button></div>
+  <div class="box">${tbl(['닉네임','UID','누적 골드','도감','상태'],rows.slice(0,300).map(r=>h`<tr class="clk" data-u="${r.id}">${td('닉네임',r.n)}${td('UID',h`<span class="mono">${r.id}</span>`)}${td('누적',r.e.toLocaleString())}${td('도감',r.d)}${td('상태',h`${S.bans[r.id]?h`<span class="tag bad">밴</span>`:''}${isOnline(r.id)?h`<span class="tag ok">접속</span>`:''}${r.lv>=1?h`<span class="tag ${r.lv>=3?'bad':'wn'}">${SEV[r.lv]}</span>`:''}`)}</tr>`))}${rows.length>300?h`<div class="mono" style="padding:8px">상위 300명만 표시 · 검색을 사용하세요</div>`:''}</div>`);
+  const i=$('#uq');i.oninput=()=>{userQ=i.value;const p=i.selectionStart;RENDER.users();const n=$('#uq');n.focus();n.setSelectionRange(p,p)}};
+
+/* 접속자 + 감시 */
+const FST=['대기','낚시 대기','입질','릴링','차징','던지기','비행'];
 function renderOnline(){
   if(S.tab!=='online')return;
-  const list=Object.entries(S.online).filter(([k])=>isOnline(k));
-  const active=document.activeElement&&document.activeElement.tagName==='INPUT';
-  $('#view').innerHTML=`<h2>접속자 <span class="mono">${list.length}명</span></h2><div class="row"><canvas id="omap" width="480" height="480"></canvas></div>
-  <div class="box"><table><tr><th>유저</th><th>위치</th><th>상태</th><th>갱신</th><th></th></tr>${list.map(([k,o])=>`<tr><td>${sName(k)} <span class="mono">(${esc(o.n||'')})</span></td><td class="mono">${(+o.x).toFixed(1)}, ${(+o.y).toFixed(1)}</td><td>${['대기','낚시중','입질','릴','차징','던지기','비행'][o.f|0]||o.f}</td><td>${fmtAgo(o.t)}</td><td><button class="btn g s" data-u="${k}">상세</button> <button class="btn g s" data-a="msg" data-id="${k}">메시지</button> <button class="btn r s" data-a="kick" data-id="${k}">추방</button></td></tr>`).join('')||'<tr><td colspan=5 class="mono">접속자 없음</td></tr>'}</table></div>`;
-  const c=$('#omap');if(c){const g=c.getContext('2d'),k=c.width/240;g.strokeStyle='rgba(255,255,255,.06)';for(let i=0;i<=240;i+=20){g.beginPath();g.moveTo(i*k,0);g.lineTo(i*k,c.height);g.moveTo(0,i*k);g.lineTo(c.width,i*k);g.stroke()}
-    g.font='12px sans-serif';for(const [id,o] of list){let h=0;for(const ch of id)h=(h*31+ch.charCodeAt(0))%360;g.fillStyle=`hsl(${h} 80% 62%)`;g.beginPath();g.arc(o.x*k,o.y*k,5,0,6.3);g.fill();g.fillStyle='#fff';g.fillText(o.n||'?',o.x*k+8,o.y*k+4)}}
-}
-/* ---------- 랭킹 ---------- */
-function renderRank(){
-  const rows=Object.entries(S.lb).sort((a,b)=>(b[1].earned||0)-(a[1].earned||0)).slice(0,100);
-  $('#view').innerHTML=`<h2>랭킹</h2><div class="row"><button class="btn g" data-a="refresh">새로고침</button><button class="btn r" data-a="lbClear">랭킹 전체 삭제</button></div><div class="box"><table><tr><th>#</th><th>유저</th><th>누적 골드</th><th>도감</th><th></th></tr>${rows.map((r,i)=>`<tr><td>${i+1}</td><td>${sName(r[0])}</td><td>${fmtN(r[1].earned)}</td><td>${r[1].dex||0}</td><td><button class="btn g s" data-u="${r[0]}">상세</button> <button class="btn r s" data-a="lbDel" data-id="${r[0]}">랭킹 삭제</button></td></tr>`).join('')}</table></div>`;
-}
-/* ---------- 의심 계정 ---------- */
-function analyze(uid,u){
-  const s=u.save||{},m=u.meta||{},fl=[];
-  const gold=+s.gold||0,earned=+s.earned||0,created=m.created;
-  const B=created?100000+(nowT()-created)/1000*150:null;
-  if(B===null)fl.push(['created 없음(미이전)',0]);else{if(earned>B)fl.push(['누적획득이 시간 예산 초과',3]);if(gold>B)fl.push(['골드가 시간 예산 초과',3])}
-  if(gold>earned+30000)fl.push(['골드가 누적획득+3만 초과',2]);
-  const inv=Array.isArray(s.inv)?s.inv:Object.values(s.inv||{});let bad=0,hi=0,big=0;
-  for(const it of inv){if(!it)continue;const f=FBY[it.id];if(!f){bad++;continue}if(+it.price>f.p*4+50)hi++;if(+it.size>f.max*1.45+1)big++}
-  if(bad)fl.push([`인벤토리 존재하지 않는 id ${bad}개`,3]);if(hi)fl.push([`시세 초과 물고기 ${hi}마리`,3]);if(big)fl.push([`크기 초과 물고기 ${big}마리`,2]);
-  if(inv.length>500)fl.push([`인벤토리 ${inv.length}마리`,1]);
-  let cx=0;for(const [id,c] of Object.entries(s.codex||{})){const f=FBY[id];if(!f||(c&&+c.max>f.max*1.45+1))cx++}
-  if(cx)fl.push([`도감 이상 항목 ${cx}개`,2]);
-  const own=Object.keys(s.items||{}).length;
-  if(own*300>earned+30000)fl.push([`장비 ${own}개 보유 대비 누적획득 부족`,2]);
-  return {uid,fl,score:fl.reduce((a,b)=>a+b[1],0),gold,earned,own};
-}
-function renderScan(){
-  const r=S.scan;
-  $('#view').innerHTML=`<h2>의심 계정 탐지</h2><div class="box"><div class="mono">전체 유저 데이터를 읽어 비정상 수치를 찾아요. (시간 예산 = 10만 + 가입 후 초당 150)</div><div class="row"><button class="btn" data-a="scanRun">스캔 시작</button>${r?`<span class="mono">${fmtT(r.t)} · 총 ${r.total}명 · 미이전 ${r.nomig}명</span>`:''}</div></div>
-  ${r?`<div class="box"><table><tr><th>유저</th><th>점수</th><th>사유</th><th>골드/누적</th><th></th></tr>${r.list.map(x=>`<tr><td>${sName(x.uid)}</td><td><span class="tag ${x.score>=5?'bad':'wn'}">${x.score}</span></td><td>${x.fl.filter(f=>f[1]>0).map(f=>esc(f[0])).join('<br>')}</td><td class="mono">${fmtN(x.gold)} / ${fmtN(x.earned)}</td><td><button class="btn g s" data-u="${x.uid}">상세</button> <button class="btn r s" data-a="ban" data-id="${x.uid}">밴</button></td></tr>`).join('')||'<tr><td colspan=5 class="mono">의심 계정 없음</td></tr>'}</table></div>`:''}`;
-}
-/* ---------- 공지/이벤트 ---------- */
-async function renderCfg(){
-  const c=S.cfg=(await get('config'))||{};
-  const fo=c.fish||{},mt=c.maintenance||{};
-  $('#view').innerHTML=`<h2>공지 · 이벤트</h2>
-  <div class="box"><h3 style="margin-top:0">전체 공지 (접속 중인 모든 유저에게 토스트)</h3><div class="row"><input type="text" id="bcT" maxlength="100" placeholder="공지 내용 (100자)" style="flex:1;min-width:240px"><button class="btn" data-a="bcSend">보내기</button></div><div class="mono">마지막: ${c.bc?esc(c.bc.text)+' · '+fmtT(c.bc.id):'없음'}</div></div>
-  <div class="box"><h3 style="margin-top:0">점검 모드</h3><div class="row"><label><input type="checkbox" id="mtOn" ${mt.on?'checked':''}> 점검 중 (관리자 제외 접속 차단 화면)</label></div><div class="row"><input type="text" id="mtMsg" maxlength="120" placeholder="점검 안내 문구" value="${esc(mt.msg||'')}" style="flex:1;min-width:240px"></div></div>
-  <div class="box"><h3 style="margin-top:0">전역 배율</h3><div class="grid2"><div class="row"><label>판매가</label><input type="number" id="cfPrice" step="0.1" min="0.1" max="10" value="${+c.price||1}"> 배</div><div class="row"><label>행운</label><input type="number" id="cfLuck" step="0.05" min="0" max="5" value="${+c.luck||0}"> 가산</div><div class="row"><label>입질 속도</label><input type="number" id="cfBite" step="0.1" min="0.2" max="5" value="${+c.bite||1}"> 배</div></div>
-  <h3>어종별 가격 배율</h3><div class="row"><select id="foId">${Object.values(FBY).map(f=>`<option value="${f.id}">[${RN[RORD.indexOf(f.r)]}] ${esc(f.n)} (${f.id})</option>`).join('')}</select><input type="number" id="foM" step="0.1" value="2" style="width:80px"><button class="btn g" data-a="foAdd">추가/변경</button></div>
-  <div class="chips" id="foList">${Object.entries(fo).map(([k,v])=>`<span class="chip on">${esc((FBY[k]||{n:k}).n)} ×${+v} <a href="#" data-a="foDel" data-id="${esc(k)}" style="color:#06281a">✕</a></span>`).join('')||'<span class="mono">없음</span>'}</div>
-  <div class="row"><button class="btn k" data-a="cfSave">설정 저장</button></div></div>`;
-}
-/* ---------- 밴 ---------- */
-function renderBans(){
-  const rows=Object.entries(S.bans);
-  $('#view').innerHTML=`<h2>밴 목록</h2><div class="box"><table><tr><th>유저</th><th>사유</th><th>시각</th><th></th></tr>${rows.map(([k,b])=>`<tr><td>${sName(k)}</td><td>${esc((b&&b.reason)||'')}</td><td>${fmtT(b&&b.t)}</td><td><button class="btn g s" data-u="${k}">상세</button> <button class="btn k s" data-a="unban" data-id="${k}">해제</button></td></tr>`).join('')||'<tr><td colspan=4 class="mono">밴한 유저 없음</td></tr>'}</table></div>`;
-}
-/* ---------- 피드 / 로그 ---------- */
-async function renderFeed(){
-  const [f,l]=await Promise.all([db.ref('feed').limitToLast(100).once('value').then(s=>s.val()||{}),db.ref('adminlog').limitToLast(60).once('value').then(s=>s.val()||{})]);
-  const fr=Object.entries(f).sort((a,b)=>(b[1].t||0)-(a[1].t||0)),lr=Object.values(l).sort((a,b)=>(b.t||0)-(a.t||0));
-  $('#view').innerHTML=`<h2>피드 · 관리 로그</h2><div class="row"><button class="btn r" data-a="feedClear">피드 전체 삭제</button></div>
-  <div class="box"><h3 style="margin-top:0">전설/영웅 낚시 피드</h3><div class="scroll"><table><tr><th>시각</th><th>유저</th><th>물고기</th><th></th></tr>${fr.map(([k,v])=>`<tr><td>${fmtT(v.t)}</td><td>${esc(v.n)}</td><td class="r${v.r}">${esc((FBY[v.f]||{n:v.f}).n)} ${v.s}cm</td><td><button class="btn r s" data-a="feedDel" data-id="${k}">삭제</button></td></tr>`).join('')||'<tr><td colspan=4 class="mono">없음</td></tr>'}</table></div></div>
-  <div class="box"><h3 style="margin-top:0">관리 로그</h3><div class="scroll"><table><tr><th>시각</th><th>작업</th><th>대상</th><th>내용</th></tr>${lr.map(v=>`<tr><td>${fmtT(v.t)}</td><td>${esc(v.a)}</td><td class="mono">${esc(v.u)}</td><td>${esc(v.d)}</td></tr>`).join('')||'<tr><td colspan=4 class="mono">없음</td></tr>'}</table></div></div>`;
-}
-/* ---------- DB 탐색기 ---------- */
-function renderDB(){
-  $('#view').innerHTML=`<h2>DB 탐색기</h2><div class="warn">모든 경로를 직접 읽고 쓸 수 있어요. 수정 전에 도구 탭에서 백업을 받아 두세요.</div>
-  <div class="row"><input type="text" id="dbP" placeholder="경로 (예: users/UID/save)" style="flex:1;min-width:260px"><button class="btn" data-a="dbRead">읽기</button><button class="btn k" data-a="dbWrite">저장(set)</button><button class="btn r" data-a="dbDel">삭제</button></div><textarea id="dbT" spellcheck="false" placeholder="JSON"></textarea>`;
-}
-/* ---------- 도구 ---------- */
-function renderTools(){
-  $('#view').innerHTML=`<h2>도구</h2>
-  <div class="box"><h3 style="margin-top:0">백업</h3><div class="mono">users · profiles · leaderboard · bans · config 를 JSON 파일로 내려받아요.</div><div class="row"><button class="btn" data-a="backup">백업 다운로드</button></div></div>
-  <div class="box"><h3 style="margin-top:0">시간 예산 마이그레이션</h3><div class="mono">meta/created 가 없는 기존 유저에게 created 를 넣어요. 현재 골드/누적이 예산 안에 들어오도록 가입 시각을 과거로 잡아요. 보안 규칙을 배포한 직후 한 번 실행하세요.</div><div class="row"><button class="btn" data-a="migrate">마이그레이션 실행</button></div></div>
-  <div class="box"><h3 style="margin-top:0">정리</h3><div class="row"><button class="btn g" data-a="ghosts">유령 접속자 정리</button><button class="btn g" data-a="evClear">이벤트 큐 비우기</button><button class="btn g" data-a="lbRebuild">랭킹 재구성</button></div></div>`;
-}
+  if(document.activeElement&&document.activeElement.tagName==='INPUT')return;
+  const list=Object.entries(S.online).filter(([k])=>isOnline(k)).sort((a,b)=>Object.keys((MON.u[b[0]]||{flags:{}}).flags).length-Object.keys((MON.u[a[0]]||{flags:{}}).flags).length);
+  put($('#view'),h`<h2>접속·감시 <span class="mono">${list.length}명</span></h2>
+  <div class="info">이 페이지를 열어 둔 동안 접속자의 <b>이동 속도 · 입질 대기 시간 · 포획 간격 · 희귀도 분포</b>를 장착 장비 기준 정상값과 계속 비교해요. 걸리면 증거가 자동 저장돼서 의심 분석 탭에 합쳐져요.</div>
+  <div class="row"><canvas id="omap" width="420" height="420"></canvas></div>
+  <div class="box">${tbl(['유저','상태','속도 / 상한','입질 최소 / 정상','감시',''],list.map(([k,o])=>{const m=MON.u[k]||{flags:{}},fl=Object.values(m.flags);
+    return h`<tr>${td('유저',h`${sName(k)} <span class="mono">(${o.n||''})</span>`)}${td('상태',FST[o.f|0]||o.f)}${td('속도/상한',m.legV?fmt(m.vmax)+' / '+fmt(m.legV):'-')}${td('입질',m.wmin!=null?m.wmin.toFixed(1)+'초 / '+m.lmin.toFixed(1)+'초':'-')}${td('감시',fl.length?fl.map(f=>h`<span class="tag bad">${CATN[f.cat]}</span>`):h`<span class="tag ok">정상</span>`)}<td class="act"><button class="btn g s" data-u="${k}">상세</button><button class="btn g s" data-a="msg" data-id="${k}">메시지</button><button class="btn r s" data-a="kick" data-id="${k}">추방</button></td></tr>`}))}${list.length?'':h`<div class="mono" style="padding:8px">접속자 없음</div>`}</div>`);
+  const c=$('#omap');if(c){const g=c.getContext('2d'),k=c.width/250;g.strokeStyle='rgba(255,255,255,.06)';for(let i=0;i<=250;i+=25){g.beginPath();g.moveTo(i*k,0);g.lineTo(i*k,c.height);g.moveTo(0,i*k);g.lineTo(c.width,i*k);g.stroke()}
+    g.font='12px sans-serif';for(const [id,o] of list){const bad=MON.u[id]&&Object.keys(MON.u[id].flags).length;g.fillStyle=bad?'#ff5a6a':'#3fd08c';g.beginPath();g.arc(o.x*k,o.y*k,5,0,6.3);g.fill();g.fillStyle='#fff';g.fillText(o.n||'?',o.x*k+8,o.y*k+4)}}}
+RENDER.online=renderOnline;
 
-/* ---------- 유저 상세 ---------- */
+/* 랭킹은 유저 탭에 흡수 — 의심 분석 */
+const CATF=[['all','전체'],['speed','속도'],['bite','입질'],['luck','행운'],['stat','스탯'],['gold','골드'],['items','장비'],['inv','물고기'],['time','자동화'],['data','데이터']];
+let scanLv=1,scanCat='all',scanSel={};
+RENDER.scan=()=>{
+  const r=S.scan;
+  let list=[];if(r){list=r.list.filter(x=>x.level>=scanLv&&(scanCat==='all'||(scanCat==='stat'?(x.cats.stat||x.cats.power||x.cats.zone||x.cats.twin):x.cats[scanCat])))}
+  put($('#view'),h`<h2>의심 분석</h2>
+  <div class="box"><div class="mut">모든 유저의 세이브를 게임 규칙과 대조해서 <b>스탯 변조 · 장비 · 물고기 · 골드 · 희귀도 분포 · 포획 속도</b>를 검사하고, 실시간 감시에서 저장된 증거를 합쳐요. 항목마다 근거 수치를 보여줘요.</div>
+  <div class="row"><button class="btn" data-a="scanRun">전체 스캔 시작</button>${r?h`<span class="mono">${fmtT(r.t)} · ${r.total}명 검사 · 확정급 ${r.c3} · 강한 의심 ${r.c2} · 의심 ${r.c1}</span>`:''}</div></div>
+  ${r?h`<div class="chips" style="margin-bottom:6px">${[[3,'확정급'],[2,'강한 의심 이상'],[1,'의심 이상'],[0,'참고 포함']].map(([k,l])=>h`<span class="chip ${scanLv===k?'on':''}" data-a="slv" data-id="${k}">${l}</span>`)}</div>
+  <div class="chips" style="margin-bottom:10px">${CATF.map(([k,l])=>h`<span class="chip ${scanCat===k?'on':''}" data-a="scat" data-id="${k}">${l}</span>`)}</div>
+  <div class="row"><span class="mono">${list.length}명 표시</span><button class="btn g s" data-a="selAll">표시 전체 선택</button><button class="btn g s" data-a="selNone">선택 해제</button><button class="btn r s" data-a="bulkBan">선택 밴</button><button class="btn k s" data-a="bulkRepair">선택 자동 복구</button></div>
+  ${list.slice(0,120).map(x=>h`<details class="ac"><summary><input type="checkbox" data-sel="${x.uid}" ${scanSel[x.uid]?'checked':''}>${sevb(x.level)}<b>${nickOf(x.uid)}</b><span class="mono">${x.uid.slice(0,6)} · 점수 ${x.score.toFixed(1)}</span>${catTags(x.cats)}<span class="mut">${x.findings.filter(f=>f.sev>=1).length}건</span></summary><div class="bd">${x.findings.map(f=>h`<div class="fd">${sevb(f.sev)} <span class="tag">${CATN[f.cat]||f.cat}</span><b>${f.title}</b><div class="ev">${f.ev}</div></div>`)}<div class="row"><button class="btn g s" data-u="${x.uid}">유저 상세</button><button class="btn r s" data-a="ban" data-id="${x.uid}">밴</button></div></div></details>`)}
+  ${list.length>120?h`<div class="mono">상위 120명만 표시 · 필터를 좁혀 보세요</div>`:''}${list.length?'':h`<div class="mono">조건에 맞는 계정 없음</div>`}`:''}`)};
+document.addEventListener('change',e=>{const c=e.target.closest('[data-sel]');if(c)scanSel[c.dataset.sel]=c.checked});
+
+/* 점검 · 공지 */
+RENDER.cfg=async()=>{
+  const c=S.cfg=(await get('config'))||{},fo=c.fish||{},mt=c.maintenance||{};
+  put($('#view'),h`<h2>점검 · 공지</h2>
+  <div class="box"><h3>점검 모드</h3>
+   <div class="tog ${mt.on?'on':''}"><div style="flex:1"><b>${mt.on?'점검 중':'정상 운영'}</b><div class="mut">켜면 즉시 모든 접속자에게 점검 화면이 뜨고, <b>서버 규칙에서 관리자 외 모든 저장·위치·채팅·이벤트 쓰기가 막혀요</b> (화면 우회 불가). 관리자 계정은 그대로 플레이할 수 있어요.</div></div><label class="sw"><input type="checkbox" id="mtOn" data-a="mtToggle" ${mt.on?'checked':''}><i></i></label></div>
+   <div class="row"><input type="text" id="mtMsg" maxlength="120" placeholder="점검 안내 문구 (예: 21:00까지 점검해요)" value="${mt.msg||''}" style="flex:1;min-width:220px"><button class="btn g" data-a="mtMsgSave">문구 저장</button></div>
+   <div class="row"><button class="btn g s" data-a="mtWarn">점검 예고 공지 보내기</button><span class="mono">점검 켜기 전에 공지부터 보내면 좋아요</span></div></div>
+  <div class="box"><h3>전체 공지 (접속 중인 모든 유저에게)</h3><div class="row"><input type="text" id="bcT" maxlength="100" placeholder="공지 내용 (100자)" style="flex:1;min-width:220px"><button class="btn" data-a="bcSend">보내기</button></div><div class="mono">마지막: ${c.bc?c.bc.text+' · '+fmtT(c.bc.id):'없음'}</div></div>
+  <div class="box"><h3>전역 배율</h3><div class="grid2"><div class="row"><label>판매가</label><input type="number" id="cfPrice" step="0.1" min="0.1" max="10" value="${+c.price||1}"> 배</div><div class="row"><label>행운</label><input type="number" id="cfLuck" step="0.05" min="0" max="5" value="${+c.luck||0}"> 가산</div><div class="row"><label>입질 속도</label><input type="number" id="cfBite" step="0.1" min="0.2" max="5" value="${+c.bite||1}"> 배</div></div>
+  <div class="warn">배율을 올리면 의심 분석의 허용 범위도 함께 올라가요. 이벤트가 끝나면 1(행운은 0)로 되돌려 주세요.</div>
+  <h3>어종별 가격 배율</h3><div class="row"><select id="foId">${Object.values(FB).map(f=>h`<option value="${f.id}">[${RN[f.ri]}] ${f.n} (${f.id})</option>`)}</select><input type="number" id="foM" step="0.1" value="2" style="width:84px"><button class="btn g" data-a="foAdd">추가/변경</button></div>
+  <div class="chips">${Object.entries(fo).map(([k,v])=>h`<span class="chip on">${(FB[k]||{n:k}).n} ×${+v} <a href="#" data-a="foDel" data-id="${k}" style="color:#06281a">✕</a></span>`)}${Object.keys(fo).length?'':h`<span class="mono">없음</span>`}</div>
+  <div class="row"><button class="btn k" data-a="cfSave">배율 저장</button></div></div>`)};
+RENDER.bans=()=>{const rows=Object.entries(S.bans);
+  put($('#view'),h`<h2>밴 목록</h2><div class="box">${tbl(['유저','사유','시각',''],rows.map(([k,b])=>h`<tr>${td('유저',sName(k))}${td('사유',(b&&b.reason)||'')}${td('시각',fmtT(b&&b.t))}<td class="act"><button class="btn g s" data-u="${k}">상세</button><button class="btn k s" data-a="unban" data-id="${k}">해제</button></td></tr>`))}${rows.length?'':h`<div class="mono">밴한 유저 없음</div>`}</div>`)};
+RENDER.feed=async()=>{
+  const [f,l]=await Promise.all([db.ref('feed').limitToLast(100).once('value').then(s=>s.val()||{}),db.ref('adminlog').limitToLast(80).once('value').then(s=>s.val()||{})]);
+  const fr=Object.entries(f).sort((a,b)=>(b[1].t||0)-(a[1].t||0)),lr=Object.values(l).sort((a,b)=>(b.t||0)-(a.t||0));
+  put($('#view'),h`<h2>피드 · 관리 로그</h2><div class="row"><button class="btn r" data-a="feedClear">피드 전체 삭제</button></div>
+  <div class="box"><h3>영웅/전설 낚시 피드</h3><div class="scroll">${tbl(['시각','유저','물고기',''],fr.map(([k,v])=>h`<tr>${td('시각',fmtT(v.t))}${td('유저',v.n)}${td('물고기',h`<span class="r${v.r}">${(FB[v.f]||{n:v.f}).n} ${v.s}cm</span>`)}<td class="act"><button class="btn r s" data-a="feedDel" data-id="${k}">삭제</button></td></tr>`))}</div></div>
+  <div class="box"><h3>관리 로그</h3><div class="scroll">${tbl(['시각','작업','대상','내용'],lr.map(v=>h`<tr>${td('시각',fmtT(v.t))}${td('작업',v.a)}${td('대상',h`<span class="mono">${v.u}</span>`)}${td('내용',v.d)}</tr>`))}</div></div>`)};
+RENDER.db=()=>{put($('#view'),h`<h2>DB 탐색기</h2><div class="warn">모든 경로를 직접 읽고 쓸 수 있어요. 쓰기·삭제는 최근 로그인이 필요하고, 수정 전에 도구 탭에서 백업을 받아 두세요.</div>
+  <div class="row"><input type="text" id="dbP" placeholder="경로 (예: users/UID/save)" style="flex:1;min-width:220px"><button class="btn" data-a="dbRead">읽기</button></div><textarea id="dbT" spellcheck="false" placeholder="JSON"></textarea><div class="row"><button class="btn k" data-a="dbWrite">저장(set)</button><button class="btn r" data-a="dbDel">삭제</button></div>`)};
+RENDER.tools=()=>{put($('#view'),h`<h2>도구</h2>
+  <div class="box"><h3>백업</h3><div class="mut">users · profiles · leaderboard · bans · config · suspects 를 JSON 파일로 내려받아요.</div><div class="row"><button class="btn" data-a="backup">백업 다운로드</button></div></div>
+  <div class="box"><h3>시간 예산 마이그레이션</h3><div class="mut">meta/created 가 없는 기존 유저에게 가입 시각을 넣어요. 현재 골드/누적이 서버 규칙의 시간 예산 안에 들어오도록 과거로 잡고, <b>가짜 시각이라는 표시(mig)</b>를 남겨서 포획 속도 분석에서는 제외해요. 새 규칙을 게시한 직후 한 번 실행하세요.</div><div class="row"><button class="btn" data-a="migrate">마이그레이션 실행</button></div></div>
+  <div class="box"><h3>정리</h3><div class="row"><button class="btn g" data-a="ghosts">유령 접속자 정리</button><button class="btn g" data-a="evClear">이벤트 큐 비우기</button><button class="btn g" data-a="lbRebuild">랭킹 재구성</button><button class="btn g" data-a="supClear">실시간 증거 기록 지우기</button></div></div>
+  <div class="box"><h3>보안 상태</h3><div class="mut">· 로그인 검증: 이메일 · 이메일 인증 · Google 로그인 모두 일치해야 열려요<br>· 세션: 브라우저 탭을 닫으면 로그아웃돼요 · ${IDLE_MS/60000}분 동안 조작이 없으면 자동 로그아웃<br>· 삭제·DB 쓰기·일괄 작업은 10분 이내 재인증 필요<br>· 서버 규칙(database.rules.json)도 같은 이메일만 관리자 권한을 줘요</div></div>`)};
+
+/* =====================================================================
+   유저 상세 (모달)
+   ===================================================================== */
 function normSave(s){
   const o=JSON.parse(JSON.stringify(s||{}));
   o.gold=+o.gold||0;o.earned=+o.earned||0;o.inv=(Array.isArray(o.inv)?o.inv:Object.values(o.inv||{})).filter(Boolean);
   o.codex=o.codex||{};o.items=o.items||{};o.equip=Object.assign({rod:'',shoes:'',hat:'',pet:''},o.equip||{});
   o.pity=Object.assign({rod:0,shoes:0,hat:0,pet:0},o.pity||{});o.ptl=Array.isArray(o.ptl)?o.ptl:Object.values(o.ptl||{});
-  o.settings=o.settings||{sound:true,vibe:true};o.gear=o.gear||{speed:1,power:1,zone:0,luck:0,bite:1};
+  o.settings=o.settings||{sound:true,vibe:true};o.gear=o.gear||calcGear(o.equip);
   o.avatar=+o.avatar||0;o.tut=+o.tut||0;o.nick=o.nick||'';return o}
 const openUser=guard(async uid=>{
   await loadBase(false);
   const [save,meta]=await Promise.all([get('users/'+uid+'/save'),get('users/'+uid+'/meta')]);
-  U={uid,save:normSave(save),meta:meta||{},has:!!save};renderUser();$('#modal').hidden=false});
+  U={uid,raw:save,save:normSave(save),meta:meta||{},has:!!save,sel:{},invF:'all'};UT='sum';
+  $('#modal').hidden=false;renderUser()});
+const UTABS=[['sum','요약'],['inv','소지품'],['eq','장비'],['an','분석'],['acc','계정'],['raw','원본']];
+function analysisOf(){return analyze(U.uid,{save:U.raw?U.save:null,meta:U.meta},{now:nowT(),cfg:S.cfg,live:S.suspects})}
 function renderUser(){
-  const s=U.save,uid=U.uid,ban=S.bans[uid],cr=U.meta.created,B=cr?100000+(nowT()-cr)/1000*150:null;
-  const slotItems=sl=>ITEMDB.filter(i=>i[1]===sl).sort((a,b)=>b[3]-a[3]);
-  const fishOpts=Object.values(FBY).map(f=>`<option value="${f.id}">[${RN[RORD.indexOf(f.r)]}] ${esc(f.n)}</option>`).join('');
-  $('#mc').innerHTML=`<h2 style="margin-right:60px">${esc(s.nick||nickOf(uid))} ${ban?'<span class="tag bad">밴</span>':''}${isOnline(uid)?' <span class="tag ok">접속 중</span>':''}</h2>
-  <div class="mono" style="margin-bottom:6px">UID ${esc(uid)} · ${U.has?'세이브 있음':'세이브 없음'} · created ${fmtT(cr)} ${B!==null?'· 시간 예산 '+fmtN(Math.round(B)):'· <span style="color:var(--ac)">미이전</span>'}</div>
-  <div class="box"><h3 style="margin-top:0">기본</h3><div class="grid2">
-   <div class="row"><label>닉네임</label><input type="text" id="uNick" maxlength="24" value="${esc(s.nick)}"></div>
+  if(!U)return;
+  const s=U.save,uid=U.uid,ban=S.bans[uid],cr=U.meta.created,B=cr?100000+(nowT()-cr)/1000*150:null,an=analysisOf();U.an=an;
+  $('#mtitle').textContent=(s.nick||nickOf(uid));
+  put($('#mt'),h`${UTABS.map(([k,l])=>h`<button data-a="ut" data-id="${k}" class="${UT===k?'on':''}">${l}${k==='an'&&an.level>=1?' ●':''}</button>`)}`);
+  const mc=$('#mc');
+  const head=h`<div class="mono" style="margin-bottom:8px">UID ${uid} · ${U.has?'세이브 있음':'세이브 없음'}${ban?' · 밴':''}${isOnline(uid)?' · 접속 중':''}<br>가입 ${fmtT(cr)}${U.meta.mig?' (마이그레이션 보정값)':''}${B!==null?' · 시간 예산 '+fmtG(B):' · 미이전'}</div>`;
+  let body='';
+  if(UT==='sum')body=h`<div class="box"><h3>기본</h3><div class="grid2">
+   <div class="row"><label>닉네임</label><input type="text" id="uNick" maxlength="24" value="${s.nick}"></div>
    <div class="row"><label>골드</label><input type="number" id="uGold" value="${s.gold}"></div>
    <div class="row"><label>누적 골드</label><input type="number" id="uEarned" value="${s.earned}"></div>
    <div class="row"><label>아바타</label><input type="number" id="uAv" min="0" max="500" value="${s.avatar}"></div></div>
-   <div class="row"><button class="btn k" data-a="uBasic">기본 저장</button><span class="mono">저장 시 시간 예산이 자동으로 맞춰져요</span></div></div>
-  <div class="box"><h3 style="margin-top:0">장착</h3><div class="grid2">${Object.keys(SLOTN).map(sl=>`<div class="row"><label>${SLOTN[sl]}</label><select data-eq="${sl}"><option value="">없음</option>${slotItems(sl).map(i=>`<option value="${i[0]}" ${s.equip[sl]===i[0]?'selected':''}>[${RN[i[3]]}] ${esc(i[2])}${s.items[i[0]]?'':' (미보유)'}</option>`).join('')}</select></div>`).join('')}</div></div>
-  <div class="box"><h3 style="margin-top:0">보유 장비 <span class="mono">(클릭하여 지급/회수)</span></h3>${Object.keys(SLOTN).map(sl=>`<div class="row"><label>${SLOTN[sl]}</label><span class="mono">${slotItems(sl).filter(i=>s.items[i[0]]).length}/${slotItems(sl).length}</span><button class="btn g s" data-a="itAll" data-id="${sl}">전부 지급</button><button class="btn g s" data-a="itNone" data-id="${sl}">전부 회수</button></div><div class="chips" style="margin-bottom:8px">${slotItems(sl).map(i=>`<span class="chip ${s.items[i[0]]?'on':''}" data-a="itTog" data-id="${i[0]}">${esc(i[2])}</span>`).join('')}</div>`).join('')}</div>
-  <div class="box"><h3 style="margin-top:0">가챠 천장(pity)</h3><div class="row">${Object.keys(SLOTN).map(sl=>`<label>${SLOTN[sl]}</label><input type="number" data-pity="${sl}" min="0" max="100" value="${+s.pity[sl]||0}" style="width:70px">`).join('')}<button class="btn g s" data-a="pitySave">저장</button></div></div>
-  <div class="box"><h3 style="margin-top:0">인벤토리 <span class="mono">${s.inv.length}마리</span></h3>
-   <div class="row"><select id="fAddId">${fishOpts}</select><input type="number" id="fAddN" min="1" max="200" value="1" style="width:70px"><button class="btn g s" data-a="fAdd">추가</button><button class="btn r s" data-a="invClear">전체 비우기</button></div>
-   <div class="scroll"><table><tr><th>#</th><th>물고기</th><th>크기</th><th>가격</th><th></th></tr>${s.inv.map((it,i)=>{const f=FBY[it.id];return `<tr><td>${i+1}</td><td class="r${f?RORD.indexOf(f.r):0}">${esc(f?f.n:it.id+' (알 수 없음)')}</td><td>${it.size}</td><td>${fmtN(it.price)}</td><td><button class="btn r s" data-a="invDel" data-id="${i}">삭제</button></td></tr>`}).join('')||'<tr><td colspan=5 class="mono">비어 있음</td></tr>'}</table></div></div>
-  <div class="box"><h3 style="margin-top:0">도감 <span class="mono">${Object.keys(s.codex).length}/${Object.keys(FBY).length}</span></h3><div class="row"><button class="btn g s" data-a="cxAll">전부 해금</button><button class="btn r s" data-a="cxClear">도감 초기화</button></div></div>
-  <div class="box"><h3 style="margin-top:0">계정 관리</h3><div class="row">
-   <button class="btn g" data-a="msg" data-id="${uid}">메시지 보내기</button><button class="btn g" data-a="kick" data-id="${uid}">추방</button>
-   ${ban?`<button class="btn k" data-a="unban" data-id="${uid}">밴 해제</button>`:`<button class="btn r" data-a="ban" data-id="${uid}">밴</button>`}
-   <button class="btn r" data-a="uReset">세이브 초기화</button><button class="btn r" data-a="uWipe">모든 데이터 삭제</button></div>
-   ${ban?`<div class="warn">밴 사유: ${esc(ban.reason||'')}</div>`:''}</div>
-  <div class="box"><h3 style="margin-top:0">세이브 원본 JSON</h3><textarea id="uRaw" spellcheck="false">${esc(JSON.stringify(s,null,2))}</textarea><div class="row"><button class="btn k" data-a="uRawSave">JSON 적용</button></div></div>`;
-}
-async function commit(msg){
-  const s=U.save,uid=U.uid,t=nowT(),need=Math.max(s.gold,s.earned)+20000,want=t-Math.max(0,(need-100000)/150)*1000-3600e3;
-  const cr=Math.floor(U.meta.created?Math.min(U.meta.created,want):Math.min(want,t-86400e3));
-  const clean=JSON.parse(JSON.stringify(s));
-  const up={};up['users/'+uid+'/save']=clean;up['users/'+uid+'/meta/created']=cr;
-  const nick=(s.nick||'낚시꾼').slice(0,24);
-  up['profiles/'+uid+'/nick']=nick;up['profiles/'+uid+'/avatar']=s.avatar;
-  up['leaderboard/'+uid]={nick,avatar:s.avatar,earned:s.earned,dex:Object.keys(s.codex).length};
-  await db.ref().update(up);
-  U.meta.created=cr;U.has=true;S.profiles[uid]={nick,avatar:s.avatar};S.lb[uid]=up['leaderboard/'+uid];
-  if(isOnline(uid))await sendEvent(uid,'reload');
-  log('save',uid,msg);toast((msg||'저장')+' 완료'+(isOnline(uid)?' · 접속 중이라 즉시 반영 요청':''));renderUser();
-}
-async function doBan(uid){
-  const reason=prompt('밴 사유 (유저에게 표시돼요)','부정 행위');if(reason===null)return;
+   <div class="row"><button class="btn k" data-a="uBasic">저장</button></div>
+   <div class="row"><label>골드 가감</label><input type="number" id="uDelta" placeholder="예: -50000" style="width:140px"><button class="btn g s" data-a="goldDelta">적용</button><button class="btn r s" data-a="goldZero">골드 0으로</button></div></div>
+   ${an.level>=1?h`<div class="warn"><b>${SEV[an.level]}</b> — ${catTags(an.cats)} <a href="#" data-a="ut" data-id="an">분석 보기</a></div>`:h`<div class="info">현재 분석에서 눈에 띄는 이상 징후는 없어요.</div>`}
+   <div class="box"><h3>한 번에 처리</h3><div class="row"><button class="btn r" data-a="seizeAll">전체 압수 (골드·소지품·장비)</button><button class="btn g" data-a="seizeBan">압수 + 밴</button></div></div>`;
+  else if(UT==='inv')body=invView();
+  else if(UT==='eq')body=eqView();
+  else if(UT==='an')body=anView(an);
+  else if(UT==='acc')body=h`<div class="box"><h3>계정 관리</h3><div class="row"><button class="btn g" data-a="msg" data-id="${uid}">메시지 보내기</button><button class="btn g" data-a="kick" data-id="${uid}">추방</button>${ban?h`<button class="btn k" data-a="unban" data-id="${uid}">밴 해제</button>`:h`<button class="btn r" data-a="ban" data-id="${uid}">밴</button>`}</div>${ban?h`<div class="warn">밴 사유: ${ban.reason||''}</div>`:''}
+   <div class="row"><button class="btn g" data-a="budget">시간 예산 늘리기</button><span class="mono">저장이 거부되는 유저(오프라인 선플레이 등)에게 써요</span></div>
+   <div class="row"><button class="btn r" data-a="uReset">세이브 초기화</button><button class="btn r" data-a="uWipe">모든 데이터 삭제</button></div></div>`;
+  else body=h`<div class="box"><h3>세이브 원본 JSON</h3><textarea id="uRaw" spellcheck="false">${JSON.stringify(s,null,2)}</textarea><div class="row"><button class="btn k" data-a="uRawSave">JSON 적용</button></div></div>`;
+  put(mc,h`${head}${body}`)}
+function invView(){
+  const s=U.save,inv=s.inv,an=U.an,badSet=badInv(s);
+  const flt=U.invF,rows=inv.map((it,i)=>({it,i,f:FB[it.id],bad:badSet.has(i)})).filter(r=>flt==='all'||(flt==='bad'&&r.bad)||(flt==='r'+(r.f?r.f.ri:-1)));
+  const sel=Object.keys(U.sel).filter(k=>U.sel[k]).length;
+  return h`<div class="box"><h3>물고기 소지품 <span class="mono">${inv.length}마리 · 총 ${fmtG(inv.reduce((a,x)=>a+(+x.price||0),0))}G</span></h3>
+   <div class="chips" style="margin-bottom:8px">${[['all','전체'],['bad','의심 ⚠'],['r0','일반'],['r1','고급'],['r2','희귀'],['r3','영웅'],['r4','전설']].map(([k,l])=>h`<span class="chip ${flt===k?'on':''}" data-a="invf" data-id="${k}">${l}</span>`)}</div>
+   <div class="row"><button class="btn g s" data-a="invSelShown">보이는 것 전체 선택</button><button class="btn g s" data-a="invSelBad">의심 항목 선택</button><button class="btn g s" data-a="invSelNone">선택 해제</button><button class="btn r s" data-a="invDelSel" ${sel?'':'disabled'}>선택 ${sel}마리 회수</button><button class="btn r s" data-a="invClear">전부 회수</button></div>
+   <div class="scroll">${tbl(['','물고기','크기','가격',''],rows.slice(0,400).map(r=>h`<tr>${td('선택',h`<input type="checkbox" data-isel="${r.i}" ${U.sel[r.i]?'checked':''}>`)}${td('물고기',h`<span class="r${r.f?r.f.ri:0}">${r.f?r.f.n:r.it.id+' (알 수 없음)'}</span>${r.bad?h` <span class="tag bad">⚠</span>`:''}`)}${td('크기',r.it.size)}${td('가격',fmtG(r.it.price))}<td class="act"><button class="btn r s" data-a="invDel" data-id="${r.i}">회수</button></td></tr>`))}${rows.length>400?h`<div class="mono">400마리까지만 표시</div>`:''}${rows.length?'':h`<div class="mono" style="padding:8px">없음</div>`}</div></div>
+   <div class="box"><h3>물고기 지급</h3><div class="row"><select id="fAddId">${Object.values(FB).map(f=>h`<option value="${f.id}">[${RN[f.ri]}] ${f.n}</option>`)}</select><input type="number" id="fAddN" min="1" max="200" value="1" style="width:72px"><button class="btn g s" data-a="fAdd">지급</button></div><div class="mono">지급하면 도감 기록도 같이 늘려서 분석에 걸리지 않게 해요.</div></div>
+   <div class="box"><h3>도감</h3><div class="row"><span class="mono">${Object.keys(s.codex).length}/${Object.keys(FB).length}</span><button class="btn g s" data-a="cxAll">전부 해금</button><button class="btn r s" data-a="cxClear">도감 초기화</button></div></div>`}
+function badInv(s){
+  const bad=new Set(),cfg=S.cfg,fm=Math.max(1,...Object.values(cfg.fish||{}).map(Number)),PB={hi:Math.max(1,(+cfg.price||1)*fm),lo:1},cnt={};
+  s.inv.forEach((it,i)=>{const f=FB[it.id];if(!f){bad.add(i);return}
+    if(it.size>f.max*1.3+.3||it.size<f.min*.8-.3){bad.add(i);return}
+    const [lo,hi]=priceBand(f,+it.size,PB);if(it.price>hi||it.price<lo){bad.add(i);return}
+    cnt[it.id]=(cnt[it.id]||0)+1;const c=s.codex[it.id];if(cnt[it.id]>(c&&+c.n||0))bad.add(i)});
+  return bad}
+function eqView(){
+  const s=U.save,own=sl=>ITEMS_BY(sl);
+  return h`<div class="box"><h3>장착</h3><div class="grid2">${Object.keys(SLOTN).map(sl=>h`<div class="row"><label>${SLOTN[sl]}</label><select data-eq="${sl}"><option value="">없음</option>${own(sl).map(i=>h`<option value="${i.id}" ${s.equip[sl]===i.id?'selected':''}>[${RN[i.ri]}] ${i.n}${s.items[i.id]?'':' (미보유)'}</option>`)}</select></div>`)}</div></div>
+  <div class="box"><h3>보유 장비 <span class="mono">탭하면 지급/회수 · 회수하면 자동으로 장착도 해제돼요</span></h3>${Object.keys(SLOTN).map(sl=>h`<div class="row"><label>${SLOTN[sl]}</label><span class="mono">${own(sl).filter(i=>s.items[i.id]).length}/${own(sl).length}</span><button class="btn g s" data-a="itAll" data-id="${sl}">전부 지급</button><button class="btn r s" data-a="itNone" data-id="${sl}">전부 회수</button></div><div class="chips" style="margin-bottom:10px">${own(sl).map(i=>h`<span class="chip ${s.items[i.id]?'on':''}" data-a="itTog" data-id="${i.id}">${i.n}</span>`)}</div>`)}</div>
+  <div class="box"><h3>가챠 천장(pity)</h3><div class="row">${Object.keys(SLOTN).map(sl=>h`<label>${SLOTN[sl]}</label><input type="number" data-pity="${sl}" min="0" max="39" value="${+s.pity[sl]||0}" style="width:70px">`)}<button class="btn g s" data-a="pitySave">저장</button></div></div>
+  <div class="box"><h3>스탯 (gear)</h3><div class="mono">저장값 → 정상값(장착 기준)</div>${(()=>{const e=calcGear(s.equip);return Object.keys(e).map(k=>{const v=s.gear[k],bad=isNum(v)&&v>e[k]+.0006;return h`<div class="row" style="margin:2px 0"><label style="min-width:90px">${k}</label><span class="${bad?'tag bad':''}">${fmt(v)}</span><span class="mono">→ ${fmt(e[k])}</span></div>`})})()}<div class="row"><button class="btn k" data-a="gearFix">스탯을 정상값으로 복구</button></div></div>`}
+const ITEMS_BY=sl=>Object.values(IT).filter(i=>i.slot===sl).sort((a,b)=>b.ri-a.ri);
+function anView(an){
+  const plan=repairPlan(U.save,S.cfg).plan;
+  return h`<div class="box"><h3>분석 결과 ${sevb(an.level)} <span class="mono">점수 ${an.score.toFixed(1)} · 도감 포획 ${fmtG(an.N)}회</span></h3>${catTags(an.cats)}
+  ${an.findings.length?an.findings.map(f=>h`<div class="fd">${sevb(f.sev)} <span class="tag">${CATN[f.cat]||f.cat}</span><b>${f.title}</b><div class="ev">${f.ev}</div></div>`):h`<div class="mono">이상 없음</div>`}</div>
+  <div class="box"><h3>자동 복구</h3>${plan.length?h`<div class="mut">체크한 항목만 적용돼요. 골드/누적 상한 항목은 기본으로 꺼져 있어요.</div>${plan.map(p=>h`<label class="row" style="display:flex"><input type="checkbox" data-fix="${p.k}" ${p.def?'checked':''}> <b>${p.label}</b> <span class="mut">${p.text}</span></label>`)}<div class="row"><button class="btn k" data-a="repair">선택 항목 복구 적용</button></div>`:h`<div class="mono">복구할 항목이 없어요</div>`}</div>`}
+
+/* 저장 파이프라인: 접속 중이면 잠깐 얼린 뒤(서버가 그 유저 쓰기를 막음) 쓰고 풀어서 덮어쓰기를 방지 */
+async function freezeIf(uid){
+  if(!isOnline(uid)||S.bans[uid])return false;
+  await db.ref('bans/'+uid).set({reason:'관리자 수정 중',temp:true,t:TS(),by:ADMIN});S.bans[uid]={reason:'관리자 수정 중',temp:true};
+  await sleep(1500);return true}
+async function thaw(uid,did){
+  if(!did)return;await db.ref('bans/'+uid).remove();delete S.bans[uid];await sleep(300);await sendEvent(uid,'reload').catch(()=>{})}
+async function writeSave(uid,save,meta,msg){
+  const t=nowT(),need=Math.max(+save.gold||0,+save.earned||0)+20000,want=t-Math.max(0,(need-100000)/150)*1000-3600e3;
+  const cur=meta&&meta.created,up={};
+  if(!cur||cur>want){up['users/'+uid+'/meta/created']=Math.floor(cur?Math.min(cur,want):Math.min(want,t-86400e3));up['users/'+uid+'/meta/mig']=true;if(meta){meta.created=up['users/'+uid+'/meta/created'];meta.mig=true}}
+  const clean=JSON.parse(JSON.stringify(save));
+  up['users/'+uid+'/save']=clean;
+  const nick=(save.nick||'낚시꾼').slice(0,24);
+  up['profiles/'+uid+'/nick']=nick;up['profiles/'+uid+'/avatar']=clamp(save.avatar,0,500);
+  up['leaderboard/'+uid]={nick,avatar:clamp(save.avatar,0,500),earned:Math.max(0,Math.floor(+save.earned||0)),dex:Math.min(300,Object.keys(save.codex||{}).length)};
+  const froze=await freezeIf(uid);
+  try{await db.ref().update(up)}finally{await thaw(uid,froze)}
+  S.profiles[uid]={nick,avatar:clean.avatar};S.lb[uid]=up['leaderboard/'+uid];
+  log('save',uid,msg);toast((msg||'저장')+' 완료'+(froze?' · 접속 중인 유저에게 즉시 반영했어요':''))}
+const commit=async msg=>{await writeSave(U.uid,U.save,U.meta,msg);U.has=true;U.raw=U.save;renderUser()};
+async function doBan(uid,reason){
+  if(reason===undefined){reason=prompt('밴 사유 (유저에게 표시돼요)','부정 행위');if(reason===null)return false}
   await db.ref('bans/'+uid).set({reason:reason.slice(0,120),t:TS(),by:ADMIN});S.bans[uid]={reason,t:nowT()};
   if(isOnline(uid)){await sendEvent(uid,'kick').catch(()=>{});await db.ref('world/main/players/'+uid).remove().catch(()=>{})}
-  if(confirm('랭킹에서도 삭제할까요?')){await db.ref('leaderboard/'+uid).remove();delete S.lb[uid]}
-  log('ban',uid,reason);toast('밴했어요');
-}
-const newDefault=old=>({gold:0,inv:[],codex:{},settings:{sound:true,vibe:true},gear:{speed:1,power:1,zone:0,luck:0,bite:1},avatar:old.avatar||0,tut:old.tut||0,nick:old.nick||'',earned:0,items:{},equip:{rod:'',shoes:'',hat:'',pet:''},pity:{rod:0,shoes:0,hat:0,pet:0},ptl:[]});
+  log('ban',uid,reason);return true}
+const newDefault=old=>({gold:0,inv:[],codex:{},settings:{sound:true,vibe:true},gear:calcGear({}),avatar:old.avatar||0,tut:old.tut||0,nick:old.nick||'',earned:0,items:{},equip:{rod:'',shoes:'',hat:'',pet:''},pity:{rod:0,shoes:0,hat:0,pet:0},ptl:[]});
+function unequipMissing(s){for(const sl of SLOTS){const id=s.equip[sl];if(id&&!s.items[id])s.equip[sl]=''}s.gear=calcGear(s.equip)}
+const giveCodex=(s,f,n,size)=>{const c=s.codex[f.id]||(s.codex[f.id]={n:0,max:0,seen:true});c.n=(+c.n||0)+n;c.max=Math.max(+c.max||0,size)};
 
-/* ---------- 이벤트 위임 ---------- */
+/* =====================================================================
+   이벤트 위임
+   ===================================================================== */
+document.addEventListener('change',guard(async e=>{
+  const q=e.target.closest('[data-eq]');if(q&&U){U.save.equip[q.dataset.eq]=q.value;U.save.gear=calcGear(U.save.equip);await commit('장착 변경');return}
+  const c=e.target.closest('[data-isel]');if(c&&U){U.sel[c.dataset.isel]=c.checked;const b=$('[data-a="invDelSel"]');if(b){const n=Object.keys(U.sel).filter(k=>U.sel[k]).length;b.disabled=!n;b.textContent='선택 '+n+'마리 회수'}}
+}));
 document.addEventListener('click',guard(async e=>{
-  if(e.target.id==='mx'||e.target.id==='modal'){$('#modal').hidden=true;U=null;if(S.tab==='users')renderUsers();return}
-  const ue=e.target.closest('[data-u]');if(ue&&!e.target.closest('[data-a]')){e.preventDefault();await openUser(ue.dataset.u);return}
-  const b=e.target.closest('[data-a]');if(!b)return;e.preventDefault();
+  const modal=e.target.id==='modal';if(modal){closeModal();return}
+  const b0=e.target.closest('[data-a]');
+  const ue=e.target.closest('[data-u]');if(ue&&!b0){e.preventDefault();await openUser(ue.dataset.u);return}
+  const b=b0;if(!b)return;e.preventDefault();
   const a=b.dataset.a,id=b.dataset.id,s=U&&U.save;
   switch(a){
+   case 'mclose':closeModal();break;
+   case 'logout':await auth.signOut();break;
+   case 'more':$('#more').hidden=false;break;
    case 'refresh':await loadBase(true);await go(S.tab);break;
+   case 'uf':userF=id;RENDER.users();break;
    case 'uidGo':{const v=$('#uidGo').value.trim();if(v)await openUser(v);break}
+   case 'ut':UT=id;renderUser();break;
+   case 'invf':U.invF=id;renderUser();break;
    /* 유저 상세 */
    case 'uBasic':s.nick=$('#uNick').value.trim().slice(0,24);s.gold=Math.max(0,Math.floor(+$('#uGold').value||0));s.earned=Math.max(0,Math.floor(+$('#uEarned').value||0));s.avatar=clamp($('#uAv').value,0,500);await commit('기본 정보 수정');break;
-   case 'itTog':if(s.items[id])delete s.items[id];else s.items[id]=1;renderUser();await commit((IBY[id]||{n:id}).n+' 토글');break;
-   case 'itAll':ITEMDB.filter(i=>i[1]===id).forEach(i=>s.items[i[0]]=1);await commit(SLOTN[id]+' 전부 지급');break;
-   case 'itNone':ITEMDB.filter(i=>i[1]===id).forEach(i=>{delete s.items[i[0]];if(s.equip[id]===i[0])s.equip[id]=''});await commit(SLOTN[id]+' 전부 회수');break;
-   case 'pitySave':document.querySelectorAll('[data-pity]').forEach(i=>s.pity[i.dataset.pity]=clamp(i.value,0,100));await commit('천장 수정');break;
-   case 'fAdd':{const f=FBY[$('#fAddId').value],n=clamp($('#fAddN').value,1,200);for(let i=0;i<n;i++)s.inv.push({id:f.id,size:Math.round((f.min+(f.max-f.min)*Math.random())*10)/10,price:Math.min(60000,Math.round(f.p*1.1))});await commit(f.n+' ×'+n+' 지급');break}
-   case 'invDel':s.inv.splice(+id,1);await commit('물고기 삭제');break;
-   case 'invClear':if(confirm('인벤토리를 모두 비울까요?')){s.inv=[];await commit('인벤토리 비움')}break;
-   case 'cxAll':Object.values(FBY).forEach(f=>{if(!s.codex[f.id])s.codex[f.id]={n:1,max:f.min,seen:true}});await commit('도감 전부 해금');break;
+   case 'goldDelta':{const d=Math.floor(+$('#uDelta').value||0);if(!d)break;s.gold=Math.max(0,s.gold+d);await commit('골드 '+(d>0?'+':'')+d);break}
+   case 'goldZero':s.gold=0;await commit('골드 회수 (0)');break;
+   case 'itTog':if(s.items[id])delete s.items[id];else s.items[id]=1;unequipMissing(s);await commit((IT[id]||{n:id}).n+' 토글');break;
+   case 'itAll':Object.values(IT).filter(i=>i.slot===id).forEach(i=>s.items[i.id]=1);await commit(SLOTN[id]+' 전부 지급');break;
+   case 'itNone':Object.values(IT).filter(i=>i.slot===id).forEach(i=>delete s.items[i.id]);s.equip[id]='';unequipMissing(s);await commit(SLOTN[id]+' 전부 회수');break;
+   case 'pitySave':document.querySelectorAll('[data-pity]').forEach(i=>s.pity[i.dataset.pity]=clamp(i.value,0,39));await commit('천장 수정');break;
+   case 'gearFix':s.gear=calcGear(s.equip);await commit('스탯 정상값 복구');break;
+   case 'fAdd':{const f=FB[$('#fAddId').value],n=clamp($('#fAddN').value,1,200);let mx=0;for(let i=0;i<n;i++){const sz=Math.round((f.min+(f.max-f.min)*Math.random())*10)/10;mx=Math.max(mx,sz);s.inv.push({id:f.id,size:sz,price:Math.max(1,Math.round(f.p*(.75+.7*((sz-f.min)/Math.max(.1,f.max-f.min)))))})}giveCodex(s,f,n,mx);await commit(f.n+' ×'+n+' 지급');break}
+   case 'invDel':s.inv.splice(+id,1);U.sel={};await commit('물고기 1마리 회수');break;
+   case 'invSelShown':{const bad=badInv(s);s.inv.forEach((it,i)=>{const f=FB[it.id],ok=U.invF==='all'||(U.invF==='bad'&&bad.has(i))||U.invF==='r'+(f?f.ri:-1);if(ok)U.sel[i]=true});renderUser();break}
+   case 'invSelBad':{const bad=badInv(s);U.sel={};bad.forEach(i=>U.sel[i]=true);renderUser();break}
+   case 'invSelNone':U.sel={};renderUser();break;
+   case 'invDelSel':{const idx=new Set(Object.keys(U.sel).filter(k=>U.sel[k]).map(Number));if(!idx.size)break;if(!confirm(idx.size+'마리를 회수할까요?'))break;s.inv=s.inv.filter((_,i)=>!idx.has(i));U.sel={};await commit('물고기 '+idx.size+'마리 회수');break}
+   case 'invClear':if(confirm('인벤토리를 모두 회수할까요?')){s.inv=[];U.sel={};await commit('인벤토리 전부 회수')}break;
+   case 'cxAll':Object.values(FB).forEach(f=>{if(!s.codex[f.id])s.codex[f.id]={n:1,max:f.min,seen:true}});await commit('도감 전부 해금');break;
    case 'cxClear':if(confirm('도감을 초기화할까요?')){s.codex={};await commit('도감 초기화')}break;
-   case 'uReset':if(confirm('이 유저의 세이브를 초기화할까요? (닉네임/아바타 유지)')){U.save=newDefault(s);await commit('세이브 초기화')}break;
-   case 'uWipe':if(confirm('이 유저의 모든 데이터를 삭제할까요? 되돌릴 수 없어요.')&&confirm('정말 삭제합니다.')){const u=U.uid,up={};['users/'+u,'profiles/'+u,'leaderboard/'+u,'events/'+u,'world/main/players/'+u].forEach(p=>up[p]=null);await db.ref().update(up);delete S.profiles[u];delete S.lb[u];log('wipe',u,'');toast('삭제했어요');$('#modal').hidden=true;U=null;go(S.tab)}break;
+   case 'repair':{const keep=new Set([...document.querySelectorAll('[data-fix]')].filter(x=>x.checked).map(x=>x.dataset.fix));if(!keep.size)break;const r2=repairPlan(s,S.cfg,keep);
+     U.save=normSave(r2.save);U.save.gear=calcGear(U.save.equip);await commit('자동 복구: '+r2.plan.map(p=>p.label).join(', '));break}
+   case 'seizeAll':{if(!typed('압수','골드·소지품·장비를 모두 압수해요'))break;await fresh();s.gold=0;s.inv=[];s.items={};s.equip={rod:'',shoes:'',hat:'',pet:''};s.gear=calcGear(s.equip);s.pity={rod:0,shoes:0,hat:0,pet:0};await commit('전체 압수');break}
+   case 'seizeBan':{if(!typed('압수','전체 압수 후 밴해요'))break;await fresh();s.gold=0;s.inv=[];s.items={};s.equip={rod:'',shoes:'',hat:'',pet:''};s.gear=calcGear(s.equip);s.pity={rod:0,shoes:0,hat:0,pet:0};await commit('전체 압수');await doBan(U.uid,'부정 행위로 압수 및 이용 제한');renderUser();break}
+   case 'budget':{const v=+prompt('이 유저가 저장할 수 있어야 하는 골드/누적 최대치 (예: 3000000)','1000000');if(!(v>0))break;await fresh();const t=nowT(),cr=Math.floor(t-Math.max(0,(v+20000-100000)/150)*1000-3600e3);await db.ref('users/'+U.uid+'/meta').update({created:cr,mig:true});U.meta.created=cr;U.meta.mig=true;log('budget',U.uid,'예산 '+v);toast('시간 예산을 늘렸어요');renderUser();break}
+   case 'uReset':if(confirm('세이브를 초기화할까요? (닉네임/아바타 유지)')){await fresh();U.save=newDefault(s);await commit('세이브 초기화')}break;
+   case 'uWipe':if(typed('삭제','이 유저의 모든 데이터를 삭제해요. 되돌릴 수 없어요.')){await fresh();const u=U.uid,up={};['users/'+u,'profiles/'+u,'leaderboard/'+u,'events/'+u,'world/main/players/'+u,'suspects/'+u].forEach(p=>up[p]=null);await db.ref().update(up);delete S.profiles[u];delete S.lb[u];log('wipe',u,'');toast('삭제했어요');closeModal()}break;
    case 'uRawSave':{let o;try{o=JSON.parse($('#uRaw').value)}catch(x){toast('JSON 형식 오류',true);break}U.save=normSave(o);await commit('JSON 적용');break}
-   case 'ban':await doBan(id);if(U&&U.uid===id)renderUser();if(S.tab==='bans'||S.tab==='scan')go(S.tab);break;
-   case 'unban':await db.ref('bans/'+id).remove();delete S.bans[id];log('unban',id,'');toast('밴 해제');if(U&&U.uid===id)renderUser();if(S.tab==='bans')renderBans();break;
+   case 'ban':{const ok=await doBan(id);if(ok){toast('밴했어요');if(U&&U.uid===id)renderUser();else if(['bans','scan','users'].includes(S.tab))go(S.tab)}break}
+   case 'unban':await db.ref('bans/'+id).remove();delete S.bans[id];log('unban',id,'');toast('밴 해제');if(U&&U.uid===id)renderUser();if(S.tab==='bans')RENDER.bans();break;
    case 'kick':await sendEvent(id,'kick').catch(()=>{});await db.ref('world/main/players/'+id).remove();log('kick',id,'');toast('추방했어요');break;
    case 'msg':{const m=prompt('보낼 메시지 (120자)');if(!m)break;await sendEvent(id,'msg',m);log('msg',id,m);toast('보냈어요');break}
-   /* 랭킹 */
-   case 'lbDel':await db.ref('leaderboard/'+id).remove();delete S.lb[id];log('lbDel',id,'');renderRank();break;
-   case 'lbClear':if(confirm('랭킹 전체를 삭제할까요?')){await db.ref('leaderboard').remove();S.lb={};log('lbClear','','');renderRank()}break;
    /* 스캔 */
-   case 'scanRun':{b.disabled=true;b.textContent='스캔 중…';const users=(await get('users'))||{};const list=[];let nomig=0;
-     for(const [uid,u] of Object.entries(users)){const r=analyze(uid,u);if(!(u.meta&&u.meta.created))nomig++;if(r.score>0)list.push(r)}
-     list.sort((a,b)=>b.score-a.score);S.scan={t:nowT(),total:Object.keys(users).length,nomig,list};renderScan();break}
-   /* 설정 */
-   case 'bcSend':{const t=$('#bcT').value.trim();if(!t)break;await db.ref('config/bc').set({id:nowT(),text:t.slice(0,100)});log('broadcast','',t);toast('공지를 보냈어요');renderCfg();break}
-   case 'foAdd':{const m=+$('#foM').value;if(!(m>0)){toast('배율을 확인해 주세요',true);break}await db.ref('config/fish/'+$('#foId').value).set(m);log('fishMult',$('#foId').value,m);renderCfg();break}
-   case 'foDel':await db.ref('config/fish/'+id).remove();renderCfg();break;
-   case 'cfSave':{const p=+$('#cfPrice').value||1,l=+$('#cfLuck').value||0,bt=+$('#cfBite').value||1;
-     await db.ref('config').update({price:p,luck:l,bite:bt,maintenance:{on:$('#mtOn').checked,msg:$('#mtMsg').value.slice(0,120)}});log('config','',`price ${p} luck ${l} bite ${bt} maint ${$('#mtOn').checked}`);toast('설정을 저장했어요');break}
-   /* 피드 */
-   case 'feedDel':await db.ref('feed/'+id).remove();renderFeed();break;
-   case 'feedClear':if(confirm('피드를 모두 삭제할까요?')){await db.ref('feed').remove();renderFeed()}break;
+   case 'slv':scanLv=+id;RENDER.scan();break;
+   case 'scat':scanCat=id;RENDER.scan();break;
+   case 'selAll':{const r=S.scan;r.list.filter(x=>x.level>=scanLv&&(scanCat==='all'||(scanCat==='stat'?(x.cats.stat||x.cats.power||x.cats.zone||x.cats.twin):x.cats[scanCat]))).forEach(x=>scanSel[x.uid]=true);RENDER.scan();break}
+   case 'selNone':scanSel={};RENDER.scan();break;
+   case 'bulkBan':{const ids=Object.keys(scanSel).filter(k=>scanSel[k]);if(!ids.length)break;if(!typed('밴',ids.length+'명을 밴해요'))break;await fresh();const reason=prompt('밴 사유','부정 행위');if(reason===null)break;for(const u of ids)await doBan(u,reason);toast(ids.length+'명 밴 완료');scanSel={};RENDER.scan();break}
+   case 'bulkRepair':{const ids=Object.keys(scanSel).filter(k=>scanSel[k]);if(!ids.length)break;if(!typed('복구',ids.length+'명의 세이브를 자동 복구해요 (골드·누적 상한 제외)'))break;await fresh();let n=0;
+     for(const u of ids){const [sv,mt]=await Promise.all([get('users/'+u+'/save'),get('users/'+u+'/meta')]);if(!sv)continue;const rp=repairPlan(normSave(sv),S.cfg,new Set(['items','equip','gear','inv','codex','keys','pity']));if(!rp.plan.length)continue;const out=normSave(rp.save);out.gear=calcGear(out.equip);await writeSave(u,out,mt||{},'일괄 자동 복구');n++}
+     toast(n+'명 복구 완료');scanSel={};break}
+   case 'scanRun':{b.disabled=true;b.textContent='스캔 중…';const users=(await get('users'))||{},sup=await get('suspects');S.suspects=sup||{};const list=[],map={};let c1=0,c2=0,c3=0;const ctx={now:nowT(),cfg:S.cfg,live:S.suspects};
+     for(const [uid,u] of Object.entries(users)){const r=analyze(uid,u,ctx);map[uid]=r;if(r.level>=1||r.findings.length){list.push(r);if(r.level===1)c1++;if(r.level===2)c2++;if(r.level===3)c3++}}
+     for(const uid of Object.keys(S.suspects||{}))if(!map[uid]){const r=analyze(uid,{save:null,meta:{}},ctx);map[uid]=r;list.push(r)}
+     list.sort((a,b)=>b.level-a.level||b.score-a.score);S.scan={t:nowT(),total:Object.keys(users).length,list,map,c1,c2,c3};scanSel={};RENDER.scan();break}
+   /* 점검 / 공지 */
+   case 'mtQuick':{const on=!(S.cfg.maintenance&&S.cfg.maintenance.on);if(!confirm(on?'점검을 시작할까요? 관리자 외 모든 유저의 접속·저장이 즉시 막혀요.':'점검을 끝낼까요?'))break;await setMaint(on);RENDER.dash();break}
+   case 'mtToggle':{const on=$('#mtOn').checked;if(!confirm(on?'점검을 시작할까요? 관리자 외 모든 유저의 접속·저장이 즉시 막혀요.':'점검을 끝낼까요?')){$('#mtOn').checked=!on;break}await setMaint(on,$('#mtMsg').value);RENDER.cfg();break}
+   case 'mtMsgSave':await db.ref('config/maintenance/msg').set($('#mtMsg').value.slice(0,120));toast('문구를 저장했어요');break;
+   case 'mtWarn':{const m=prompt('예고 공지 내용','잠시 후 점검이 시작돼요. 진행 상황을 저장하고 마무리해 주세요.');if(!m)break;await db.ref('config/bc').set({id:nowT(),text:m.slice(0,100)});log('broadcast','',m);toast('예고 공지를 보냈어요');break}
+   case 'bcSend':{const t=$('#bcT').value.trim();if(!t)break;await db.ref('config/bc').set({id:nowT(),text:t.slice(0,100)});log('broadcast','',t);toast('공지를 보냈어요');RENDER.cfg();break}
+   case 'foAdd':{const m=+$('#foM').value;if(!(m>0&&m<=50)){toast('배율을 확인해 주세요',true);break}await db.ref('config/fish/'+$('#foId').value).set(m);log('fishMult',$('#foId').value,m);RENDER.cfg();break}
+   case 'foDel':await db.ref('config/fish/'+id).remove();RENDER.cfg();break;
+   case 'cfSave':{const p=clampF($('#cfPrice').value,.1,10,1),l=clampF($('#cfLuck').value,0,5,0),bt=clampF($('#cfBite').value,.2,5,1);await db.ref('config').update({price:p,luck:l,bite:bt});log('config','',`price ${p} luck ${l} bite ${bt}`);toast('배율을 저장했어요');break}
+   case 'feedDel':await db.ref('feed/'+id).remove();RENDER.feed();break;
+   case 'feedClear':if(confirm('피드를 모두 삭제할까요?')){await fresh();await db.ref('feed').remove();RENDER.feed()}break;
    /* DB */
-   case 'dbRead':{const p=$('#dbP').value.trim().replace(/^\/+|\/+$/g,'');if(!p&&!confirm('루트 전체를 읽으면 매우 클 수 있어요. 계속할까요?'))break;const v=await get(p);$('#dbT').value=JSON.stringify(v,null,2);break}
-   case 'dbWrite':{const p=$('#dbP').value.trim().replace(/^\/+|\/+$/g,'');if(!p){toast('루트에는 쓸 수 없어요',true);break}let v;try{v=JSON.parse($('#dbT').value)}catch(x){toast('JSON 형식 오류',true);break}if(!confirm(p+' 에 덮어쓸까요?'))break;await db.ref(p).set(v);log('dbSet',p,'');toast('저장했어요');break}
-   case 'dbDel':{const p=$('#dbP').value.trim().replace(/^\/+|\/+$/g,'');if(!p){toast('루트는 삭제할 수 없어요',true);break}if(!confirm(p+' 를 삭제할까요?'))break;await db.ref(p).remove();log('dbDel',p,'');toast('삭제했어요');break}
+   case 'dbRead':{const p=dbPath(true);if(p===null)break;const v=await get(p);$('#dbT').value=JSON.stringify(v,null,2);break}
+   case 'dbWrite':{const p=dbPath();if(!p)break;let v;try{v=JSON.parse($('#dbT').value)}catch(x){toast('JSON 형식 오류',true);break}if(!confirm(p+' 에 덮어쓸까요?'))break;await fresh();await db.ref(p).set(v);log('dbSet',p,'');toast('저장했어요');break}
+   case 'dbDel':{const p=dbPath();if(!p)break;if(!typed('삭제',p+' 를 삭제해요'))break;await fresh();await db.ref(p).remove();log('dbDel',p,'');toast('삭제했어요');break}
    /* 도구 */
-   case 'backup':{const o={};for(const k of ['users','profiles','leaderboard','bans','config'])o[k]=await get(k);const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(o)],{type:'application/json'}));a.download='padack-backup-'+new Date().toISOString().slice(0,19).replace(/[:T]/g,'-')+'.json';a.click();log('backup','','');break}
-   case 'migrate':{if(!confirm('created 가 없는 유저를 마이그레이션할까요?'))break;const users=(await get('users'))||{},up={},t=nowT();let n=0;
-     for(const [uid,u] of Object.entries(users)){if(u.meta&&u.meta.created)continue;const s=u.save||{},need=Math.max(+s.gold||0,+s.earned||0)+50000,el=Math.max(86400,(need-100000)/150);up['users/'+uid+'/meta/created']=Math.floor(t-el*1000);n++}
+   case 'backup':{await fresh();const o={};for(const k of ['users','profiles','leaderboard','bans','config','suspects'])o[k]=await get(k);const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(o)],{type:'application/json'}));a.download='padack-backup-'+new Date().toISOString().slice(0,19).replace(/[:T]/g,'-')+'.json';a.click();log('backup','','');break}
+   case 'migrate':{if(!confirm('created 가 없는 유저를 마이그레이션할까요?'))break;await fresh();const users=(await get('users'))||{},up={},t=nowT();let n=0;
+     for(const [uid,u] of Object.entries(users)){if(u.meta&&u.meta.created)continue;const sv=u.save||{},need=Math.max(+sv.gold||0,+sv.earned||0)+50000,el=Math.max(86400,(need-100000)/150);up['users/'+uid+'/meta/created']=Math.floor(t-el*1000);up['users/'+uid+'/meta/mig']=true;n++}
      if(n)await db.ref().update(up);log('migrate','',n+'명');toast(n+'명 마이그레이션 완료');break}
-   case 'ghosts':{const pl=(await get('world/main/players'))||{},up={};let n=0;for(const [k,o] of Object.entries(pl)){if(!o||!o.t||nowT()-o.t>90000){up['world/main/players/'+k]=null;n++}}if(n)await db.ref().update(up);toast(n+'명 정리');break}
+   case 'ghosts':{const pl=(await get('world/main/players'))||{},up={};let n=0;for(const [k,o] of Object.entries(pl)){if(!o||!o.t||nowT()-o.t>120000){up['world/main/players/'+k]=null;n++}}if(n)await db.ref().update(up);toast(n+'명 정리');break}
    case 'evClear':if(confirm('모든 유저의 이벤트 큐를 비울까요?')){await db.ref('events').remove();toast('비웠어요')}break;
-   case 'lbRebuild':{if(!confirm('모든 유저 세이브 기준으로 랭킹을 다시 만들까요?'))break;const users=(await get('users'))||{},prof=(await get('profiles'))||{},up={};let n=0;
-     for(const [uid,u] of Object.entries(users)){const s=u.save;if(!s)continue;const nick=((prof[uid]&&prof[uid].nick)||s.nick||'낚시꾼').slice(0,24);up['leaderboard/'+uid]={nick,avatar:+s.avatar||0,earned:+s.earned||0,dex:Object.keys(s.codex||{}).length};n++}
+   case 'supClear':if(confirm('저장된 실시간 감시 증거를 모두 지울까요?')){await db.ref('suspects').remove();S.suspects={};toast('지웠어요')}break;
+   case 'lbRebuild':{if(!confirm('모든 유저 세이브 기준으로 랭킹을 다시 만들까요?'))break;await fresh();const users=(await get('users'))||{},prof=(await get('profiles'))||{},up={};let n=0;
+     for(const [uid,u] of Object.entries(users)){const sv=u.save;if(!sv)continue;const nick=((prof[uid]&&prof[uid].nick)||sv.nick||'낚시꾼').slice(0,24);up['leaderboard/'+uid]={nick,avatar:clamp(sv.avatar,0,500),earned:Math.max(0,+sv.earned||0),dex:Math.min(300,Object.keys(sv.codex||{}).length)};n++}
      await db.ref('leaderboard').set(null);if(n)await db.ref().update(up);S.base=false;log('lbRebuild','',n+'명');toast(n+'명 랭킹 재구성');break}
   }
 }));
-document.addEventListener('change',guard(async e=>{
-  const q=e.target.closest('[data-eq]');if(q&&U){U.save.equip[q.dataset.eq]=q.value;await commit('장착 변경')}
-}));
-const clamp=(v,a,b)=>Math.min(b,Math.max(a,Math.floor(+v||0)));
+const clampF=(v,a,b,d)=>{v=+v;return isFinite(v)&&v>0||v===0&&a===0?Math.min(b,Math.max(a,v)):d};
+function dbPath(read){const p=$('#dbP').value.trim().replace(/^\/+|\/+$/g,'');if(!p){if(read&&confirm('루트 전체를 읽으면 매우 클 수 있어요. 계속할까요?'))return '';if(!read)toast('루트에는 쓸 수 없어요',true);return read?null:''}return p}
+async function setMaint(on,msg){
+  const cur=S.cfg.maintenance||{},m=msg!==undefined?String(msg).slice(0,120):(cur.msg||'');
+  await db.ref('config/maintenance').set({on:!!on,msg:m,t:TS()});
+  S.cfg.maintenance={on:!!on,msg:m};log('maintenance','',on?'ON '+m:'OFF');toast(on?'점검을 시작했어요':'점검을 끝냈어요');badges()}
+function closeModal(){$('#modal').hidden=true;U=null;if(S.tab==='users')RENDER.users();else if(S.tab==='dash')RENDER.dash()}
 </script>
 </body>
 </html>
